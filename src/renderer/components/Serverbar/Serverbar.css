@@ -1,0 +1,61 @@
+:root {
+  --serverbar--server-size: calc(var(--serverbar-width) - 27px);
+}
+
+.serverbar__container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--serverbar-width);
+  height: 100%;
+  overflow: hidden;
+  background: var(--background-bright);
+}
+
+.serverbar__list {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--titlebar-height);
+  gap: 12px;
+  height: calc(100% - var(--titlebar-height) - 10px);
+  padding-bottom: 10px;
+  overflow-y: auto;
+  align-items: center;
+}
+
+.serverbar__server {
+  position: relative;
+  width: var(--serverbar--server-size);
+  height: var(--serverbar--server-size);
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.serverbar__server_selector {
+  position: absolute;
+  top: 25%;
+  height: 50%;
+  left: -10px;
+  width: 5px;
+  background: #c9c7c7;
+  border-radius: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.08s ease;
+}
+
+.serverbar__server_icon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff1c;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.serverbar__server_char {
+  color: var(--text);
+  font-size: 36px;
+}

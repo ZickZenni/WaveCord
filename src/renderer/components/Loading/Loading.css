@@ -1,4 +1,5 @@
 .loading__container {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -6,6 +7,9 @@
   align-items: center;
   justify-content: center;
   gap: 16px;
+  background: var(--background);
+  z-index: 1000;
+  transition: opacity 0.104s ease;
 }
 
 .loading__title {

@@ -1,16 +1,14 @@
-:root[data-theme='light'] {
-  --text: #0a101a;
-  --background: #e2e9f4;
-  --primary: #273f63;
-  --secondary: #ce8298;
-  --accent: #b57745;
-}
 :root {
   --text: #e5ebf5;
-  --background: #0b121c;
+
+  --background: #303030;
+  --background-bright: #454545;
+  --background-dim: #242424;
+
   --primary: #9ab3d8;
   --secondary: #7c3045;
   --accent: #ba7d4b;
 
   --titlebar-height: 26px;
+  --serverbar-width: 86px;
 }

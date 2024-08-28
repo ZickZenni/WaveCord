@@ -1,0 +1,18 @@
+.topbar__bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--topbar-height);
+  -webkit-app-region: drag;
+  z-index: 100;
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 6px;
+}
+
+.topbar__button {
+  -webkit-app-region: no-drag;
+  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(329deg)
+    brightness(104%) contrast(104%);
+}

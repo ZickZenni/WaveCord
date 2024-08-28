@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, shell, Tray } from 'electron';
 import fs from 'fs';
 import path from 'path';
 
@@ -13,6 +13,8 @@ export default class WaveCordApp {
 
   public window: BrowserWindow | null = null;
 
+  public tray: Tray | null = null;
+
   public token: string = '';
 
   public constructor() {
@@ -20,7 +22,7 @@ export default class WaveCordApp {
 
     this.resourcesPath = app.isPackaged
       ? path.join(process.resourcesPath, 'assets')
-      : path.join(__dirname, '../../../assets');
+      : path.join(__dirname, '../../assets');
     this.instanceLock = app.requestSingleInstanceLock();
 
     if (!this.instanceLock) {
@@ -69,9 +71,11 @@ export default class WaveCordApp {
       webPreferences: {
         preload: app.isPackaged
           ? path.join(__dirname, 'preload.js')
-          : path.join(__dirname, '../../../.erb/dll/preload.js'),
+          : path.join(__dirname, '../../.erb/dll/preload.js'),
       },
     });
+
+    this.initTray();
 
     this.window.loadURL(WaveCordApp.resolveHtmlPath('index.html'));
 
@@ -93,6 +97,38 @@ export default class WaveCordApp {
       shell.openExternal(edata.url);
       return { action: 'deny' };
     });
+
+    /* Ipc */
+
+    ipcMain.on('WINDOW_MINIMIZE', () => {
+      this.window?.minimize();
+    });
+
+    ipcMain.on('WINDOW_MAXIMIZE', () => {
+      if (this.window === null) return;
+
+      if (this.window.isMaximized()) this.window.unmaximize();
+      else this.window.maximize();
+    });
+
+    ipcMain.on('APP_EXIT', () => {
+      app.exit();
+    });
+  }
+
+  private initTray() {
+    this.tray = new Tray(path.join(this.resourcesPath, 'icon.png'));
+    const contextMenu = Menu.buildFromTemplate([
+      { type: 'separator' },
+      {
+        label: 'Quit',
+        type: 'normal',
+        click: () => {
+          app.quit();
+        },
+      },
+    ]);
+    this.tray.setContextMenu(contextMenu);
   }
 
   private loadUser() {

@@ -129,6 +129,10 @@ export default class WaveCordApp {
     ipcMain.handle('DISCORD_READY', () => {
       return this.discord ? this.discord.ready : false;
     });
+
+    ipcMain.handle('DISCORD_GET_GUILDS', () => {
+      return this.discord ? this.discord.guilds.getGuilds() : [];
+    });
   }
 
   private initTray() {

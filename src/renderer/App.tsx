@@ -3,6 +3,7 @@ import LoadingPage from './pages/Loading';
 import './styles/global.css';
 import './styles/vars.css';
 import Titlebar from './components/Titlebar';
+import HomePage from './pages/Home';
 
 export default function App() {
   return (
@@ -10,6 +11,7 @@ export default function App() {
       <Titlebar />
       <Routes>
         <Route path="/" element={<LoadingPage />} />
+        <Route path="/home" element={<HomePage />} />
       </Routes>
     </Router>
   );

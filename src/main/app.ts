@@ -2,6 +2,7 @@
 import { app, BrowserWindow, ipcMain, Menu, shell, Tray } from 'electron';
 import fs from 'fs';
 import path from 'path';
+import { DiscordClient } from '../common/discord/client/client';
 
 export default class WaveCordApp {
   public readonly resourcesPath: string;
@@ -17,6 +18,8 @@ export default class WaveCordApp {
 
   public token: string = '';
 
+  public discord: DiscordClient | null = null;
+
   public constructor() {
     app.setPath('userData', path.join(app.getPath('appData'), 'WaveCord'));
 
@@ -31,6 +34,11 @@ export default class WaveCordApp {
     }
 
     this.loadUser();
+
+    this.discord = new DiscordClient(this.token);
+    this.discord.on('connect', () => {
+      this.discord!.ready = true;
+    });
 
     app.on('ready', async () => {
       await this.init();
@@ -100,8 +108,7 @@ export default class WaveCordApp {
       return { action: 'deny' };
     });
 
-    /* Ipc */
-
+    /* Window Ipc */
     ipcMain.on('WINDOW_MINIMIZE', () => {
       this.window?.minimize();
     });
@@ -113,8 +120,14 @@ export default class WaveCordApp {
       else this.window.maximize();
     });
 
+    /* App Ipc */
     ipcMain.on('APP_EXIT', () => {
       app.exit();
+    });
+
+    /* Discord Ipc */
+    ipcMain.handle('DISCORD_READY', () => {
+      return this.discord ? this.discord.ready : false;
     });
   }
 
@@ -135,9 +148,9 @@ export default class WaveCordApp {
 
   private loadUser() {
     const filePath = `${app.getPath('userData')}//user`;
-    if (!fs.existsSync(filePath)) fs.writeFileSync(filePath, '', 'binary');
+    if (!fs.existsSync(filePath)) fs.writeFileSync(filePath, '', 'utf8');
 
-    this.token = fs.readFileSync(filePath, 'utf8');
+    this.token = fs.readFileSync(filePath, 'utf8').replaceAll('\n', '');
   }
 
   private static resolveHtmlPath(htmlFileName: string) {

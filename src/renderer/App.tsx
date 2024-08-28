@@ -2,12 +2,12 @@ import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import LoadingPage from './pages/Loading';
 import './styles/global.css';
 import './styles/vars.css';
-import Topbar from './components/Topbar';
+import Titlebar from './components/Titlebar';
 
 export default function App() {
   return (
     <Router>
-      <Topbar />
+      <Titlebar />
       <Routes>
         <Route path="/" element={<LoadingPage />} />
       </Routes>

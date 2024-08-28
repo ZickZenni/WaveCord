@@ -1,0 +1,28 @@
+.titlebar__bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--titlebar-height);
+  -webkit-app-region: drag;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  gap: 6px;
+}
+
+.titlebar__button {
+  -webkit-app-region: no-drag;
+  cursor: pointer;
+  margin-right: 3px;
+  width: calc(var(--titlebar-height) - 7px);
+  filter: invert(78%) sepia(1%) saturate(0%) hue-rotate(288deg) brightness(95%)
+    contrast(91%);
+  transition: filter 0.11s ease;
+}
+
+.titlebar__button:hover {
+  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(329deg)
+    brightness(104%) contrast(104%);
+}

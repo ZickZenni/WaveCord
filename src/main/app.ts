@@ -64,8 +64,10 @@ export default class WaveCordApp {
 
     this.window = new BrowserWindow({
       show: false,
-      width: 1280,
-      height: 720,
+      width: 1250,
+      height: 697,
+      minWidth: 450,
+      minHeight: 250,
       icon: path.join(this.resourcesPath, 'icon.png'),
       frame: false,
       webPreferences: {

@@ -10,6 +10,16 @@ npm install
 
 ## Starting Development
 
+Add your discord token into the 'user' file:
+
+Windows: `%APPDATA%/WaveCord/user`
+
+Linux: `~/.config/WaveCord/user`
+
+Mac: `~/Library/Application Support/WaveCord/user`
+
+#
+
 Start the app in the `dev` environment:
 
 ```bash

@@ -1,5 +1,6 @@
 /* eslint-disable global-require */
 import { app, BrowserWindow, shell } from 'electron';
+import fs from 'fs';
 import path from 'path';
 
 export default class WaveCordApp {
@@ -12,7 +13,11 @@ export default class WaveCordApp {
 
   public window: BrowserWindow | null = null;
 
+  public token: string = '';
+
   public constructor() {
+    app.setPath('userData', path.join(app.getPath('appData'), 'WaveCord'));
+
     this.resourcesPath = app.isPackaged
       ? path.join(process.resourcesPath, 'assets')
       : path.join(__dirname, '../../../assets');
@@ -22,6 +27,8 @@ export default class WaveCordApp {
       app.quit();
       return;
     }
+
+    this.loadUser();
 
     app.on('ready', async () => {
       await this.init();
@@ -86,6 +93,13 @@ export default class WaveCordApp {
       shell.openExternal(edata.url);
       return { action: 'deny' };
     });
+  }
+
+  private loadUser() {
+    const filePath = `${app.getPath('userData')}//user`;
+    if (!fs.existsSync(filePath)) fs.writeFileSync(filePath, '', 'binary');
+
+    this.token = fs.readFileSync(filePath, 'utf8');
   }
 
   private static resolveHtmlPath(htmlFileName: string) {

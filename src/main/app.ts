@@ -154,6 +154,10 @@ export default class WaveCordApp {
         : [];
     });
 
+    ipcMain.handle('DISCORD_LOAD_CHANNEL', (_, channelId: string) => {
+      return this.discord?.getChannel(channelId);
+    });
+
     ipcMain.handle(
       'DISCORD_GET_LAST_VISITED_GUILD_CHANNEL',
       (_, guildId: string) => {

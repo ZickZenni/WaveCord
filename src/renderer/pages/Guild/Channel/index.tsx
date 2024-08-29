@@ -53,6 +53,8 @@ export default function ChannelPage() {
           id="channel_page_message_list"
         >
           {messages.map((message) => {
+            const date = new Date(Date.parse(message.timestamp));
+
             return (
               <div
                 className="channel_page__message"
@@ -66,9 +68,18 @@ export default function ChannelPage() {
                   />
                 </div>
                 <div className="channel_page__message_wrapper">
-                  <p className="channel_page__message_author_name">
-                    {message.author.global_name}
-                  </p>
+                  <div className="channel_page__message_author_info">
+                    <p className="channel_page__message_author_name">
+                      {message.author.global_name}
+                    </p>
+                    <p className="channel_page__message_timestamp">
+                      {date.toLocaleDateString('de-DE', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                      })}
+                    </p>
+                  </div>
                   <p className="channel_page__message_content">
                     {message.content}
                   </p>

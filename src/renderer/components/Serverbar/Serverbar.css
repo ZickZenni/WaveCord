@@ -29,6 +29,7 @@
   height: var(--serverbar--server-size);
   flex-shrink: 0;
   text-decoration: none;
+  user-select: none;
 }
 
 .serverbar__server_selector {

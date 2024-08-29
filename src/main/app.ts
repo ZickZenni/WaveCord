@@ -170,6 +170,7 @@ export default class WaveCordApp {
 
         if (guild === null) return;
 
+        logger.log('Set last visited channel for guild', guild.id, channel.id);
         guild.lastVisitedChannel = channelId;
       },
     );

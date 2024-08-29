@@ -153,6 +153,26 @@ export default class WaveCordApp {
         ? this.discord.guilds.getGuilds().find((v) => v.id === id)
         : [];
     });
+
+    ipcMain.on(
+      'DISCORD_SET_LAST_VISITED_GUILD_CHANNEL',
+      (_, channelId: string) => {
+        const channel = this.discord
+          ? this.discord.getChannel(channelId)
+          : null;
+        if (channel === null) return;
+
+        const guild = this.discord
+          ? (this.discord.guilds
+              .getGuilds()
+              .find((v) => v.id === channel.guildId) ?? null)
+          : null;
+
+        if (guild === null) return;
+
+        guild.lastVisitedChannel = channelId;
+      },
+    );
   }
 
   private initTray() {

@@ -1,7 +1,5 @@
 import './UserPanel.css';
 
 export default function UserPanel() {
-  return <div className="userpanel__container">
-
-  </div>
+  return <div className="userpanel__container" />;
 }

@@ -3,6 +3,7 @@ import { app, BrowserWindow, ipcMain, Menu, shell, Tray } from 'electron';
 import fs from 'fs';
 import path from 'path';
 import { DiscordClient } from '../common/discord/client/client';
+import logger from '../common/logger';
 
 export default class WaveCordApp {
   public readonly resourcesPath: string;
@@ -28,6 +29,9 @@ export default class WaveCordApp {
       : path.join(__dirname, '../../assets');
     this.instanceLock = app.requestSingleInstanceLock();
 
+    logger.init();
+    logger.log('Starting app...');
+
     if (!this.instanceLock) {
       app.quit();
       return;
@@ -35,8 +39,10 @@ export default class WaveCordApp {
 
     this.loadUser();
 
+    logger.log('Connecting to discord...');
     this.discord = new DiscordClient(this.token);
     this.discord.on('connect', () => {
+      logger.log('Discord is ready.');
       this.discord!.ready = true;
     });
 
@@ -70,6 +76,7 @@ export default class WaveCordApp {
       await WaveCordApp.installExtensions();
     }
 
+    logger.log('Creating new window.');
     this.window = new BrowserWindow({
       show: false,
       width: 1250,
@@ -93,6 +100,7 @@ export default class WaveCordApp {
       if (!this.window) {
         throw new Error('"window" is not defined');
       }
+      logger.log('Window ready to be shown.');
       this.window.show();
     });
 
@@ -136,6 +144,7 @@ export default class WaveCordApp {
   }
 
   private initTray() {
+    logger.log('Creating new tray.');
     this.tray = new Tray(path.join(this.resourcesPath, 'icon.png'));
     const contextMenu = Menu.buildFromTemplate([
       { type: 'separator' },
@@ -151,10 +160,17 @@ export default class WaveCordApp {
   }
 
   private loadUser() {
-    const filePath = `${app.getPath('userData')}//user`;
-    if (!fs.existsSync(filePath)) fs.writeFileSync(filePath, '', 'utf8');
+    logger.log('Loading user token...');
 
-    this.token = fs.readFileSync(filePath, 'utf8').replaceAll('\n', '');
+    const filePath = `${app.getPath('userData')}/user`;
+    if (!fs.existsSync(filePath)) {
+      fs.writeFileSync(filePath, '', 'utf8');
+      logger.warn(`'${filePath}'`, 'file not found! Creating empty one...');
+    } else {
+      logger.log(`'${filePath}'`, 'exists! Reading file...');
+      this.token = fs.readFileSync(filePath, 'utf8').replaceAll('\n', '');
+      logger.log('Successfully loaded user token!');
+    }
   }
 
   private static resolveHtmlPath(htmlFileName: string) {
@@ -177,6 +193,6 @@ export default class WaveCordApp {
         extensions.map((name) => installer[name]),
         forceDownload,
       )
-      .catch(console.log);
+      .catch(logger.log);
   }
 }

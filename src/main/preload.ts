@@ -2,6 +2,7 @@
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 import { IpcChannels } from './ipc';
+import logger from '../common/logger';
 
 const electronHandler = {
   ipcRenderer: {
@@ -27,5 +28,7 @@ const electronHandler = {
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);
+contextBridge.exposeInMainWorld('logger', logger);
 
+export type Logger = typeof logger;
 export type ElectronHandler = typeof electronHandler;

@@ -10,14 +10,27 @@ export default function Serverbar() {
   const location = useLocation();
 
   useEffect(() => {
-    window.electron.ipcRenderer
-      .invoke('DISCORD_GET_GUILDS')
-      .then((data: Guild[]) => {
-        console.log(data);
-        setGuilds(data);
-        return true;
-      })
-      .catch((err) => console.error(err));
+    const interval = setInterval(async () => {
+      const ready = await window.electron.ipcRenderer
+        .invoke('DISCORD_READY')
+        .catch((err) => window.logger.error(err));
+
+      if (!ready) return;
+
+      const data: Guild[] = await window.electron.ipcRenderer
+        .invoke('DISCORD_GET_GUILDS')
+        .catch((err) => window.logger.error(err));
+
+      window.logger.log(
+        'Received guilds for server list:',
+        data.map((v) => `${v.id}`).join(','),
+      );
+      setGuilds(data);
+      clearInterval(interval);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   return (

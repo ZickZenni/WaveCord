@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background: var(--background);
+  background: var(--background-dim);
   color: var(--text);
   font-family: 'Inter', sans-serif;
   font-optical-sizing: auto;

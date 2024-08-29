@@ -2,9 +2,9 @@ import './Home.css';
 
 export default function HomePage() {
   return (
-    <div className="home__container">
-      <div className="home__sidebar" />
-      <div className="home__content" />
+    <div className="home_page__container">
+      <div className="home_page__sidebar" />
+      <div className="home_page__content" />
     </div>
   );
 }

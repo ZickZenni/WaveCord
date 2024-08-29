@@ -107,6 +107,8 @@ export class Guild {
 
   public icon: string | null;
 
+  public lastVisitedChannel: string | null = null;
+
   public constructor(data: IGuild) {
     this.id = data.id;
     this.name = data.name;

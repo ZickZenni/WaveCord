@@ -1,0 +1,51 @@
+.guild_page__container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.guild_page__channel_list {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  overflow: hidden;
+  height: 100%;
+  background: var(--background);
+  overflow-y: auto;
+}
+
+.guild_page__content {
+  width: calc(100% - 270px - 300px);
+  height: 100%;
+}
+
+.guild_page__member_list {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  width: 270px;
+  height: 100%;
+  background: var(--background);
+  overflow-y: auto;
+}
+
+.guild_page__channel {
+  display: flex;
+  width: 100%;
+  height: 28px;
+  padding: 12px 18px;
+  gap: 18px;
+  user-select: none;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.guild_page__channel:hover {
+  background: var(--background-bright);
+}
+
+.guild_page__channel_icon {
+  filter: invert(57%) sepia(0%) saturate(256%) hue-rotate(170deg)
+    brightness(101%) contrast(84%);
+}

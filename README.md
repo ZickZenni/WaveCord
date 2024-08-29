@@ -1,39 +1,71 @@
-## Install
+<br/>
+<div align="center">
 
-Clone the repo and install dependencies:
+<h3 align="center">WaveCord</h3>
+<p align="center">
+A open-source discord desktop client specializing on privacy and customizability
 
-```bash
-git clone --depth 1 --branch main https://github.com/zickzenni/wavecord
-cd WaveCord
-npm install
-```
+<br/>
+<br/>
+  
+<a href="https://github.com/ZickZenni/WaveCord/issues/new?assignees=&labels=bug&projects=&template=1-Bug_report.md">Report Bug .</a>
+<a href="https://github.com/ZickZenni/WaveCord/issues/new?assignees=&labels=enhancement&projects=&template=3-Feature_request.md">Request Feature</a>
+</p>
+</div>
 
-## Starting Development
+## About The Project
 
-Add your discord token into the 'user' file:
+The official discord client is not that bad and it's possible for improvement. Modifications like [Vencord](https://vencord.dev/) or [BetterDiscord](https://betterdiscord.app/) are really nice projects that definitely improve the overall experience using the official client.
 
-Windows: `%APPDATA%/WaveCord/user`
+But here's why I am building a custom discord client:
 
-Linux: `~/.config/WaveCord/user`
+- Completely made from scratch, improving overall performance
+- Overall everything is customizable and has no risk of breaking after an update
+- Direct plugin support (not implemented _yet_)
+- Just for fun. This entire project is just a hobby.
 
-Mac: `~/Library/Application Support/WaveCord/user`
+Of course, not everything will implemented exactly or in some way just like the official client, but that's the goal. Feature requests are always welcome, because I want to improve the client for everyone.
 
-#
+### Built With
 
-Start the app in the `dev` environment:
+- [React](https://reactjs.org)
+- [Electron](https://www.electronjs.org/)
+- [Typescript](https://www.typescriptlang.org/)
 
-```bash
-npm start
-```
+## Getting Started
 
-## Packaging for Production
+To get started developing for WaveCord, you'll need to clone the project and install everything what's needed.
 
-To package WaveCord for the local platform:
+### Installation
 
-```bash
-npm run package
-```
+1. Clone the repo
+   ```sh
+   git clone https://github.com/ZickZenni/WaveCord.git
+   ```
+2. Install NPM packages
+   ```sh
+   npm install
+   ```
+3. Enter your Token in the `user` file
+
+   ```sh
+   Windows: %APPDATA%/WaveCord/user
+   ```
+
+   ```sh
+   Linux: ~/.config/WaveCord/user
+   ```
+
+   ```sh
+   Mac: ~/Library/Application Support/WaveCord/user
+   ```
 
 ## License
 
-MIT © [WaveCord](https://github.com/zickzenni/wavecord)
+Distributed under the MIT License. See [MIT License](https://opensource.org/licenses/MIT) for more information.
+
+## Contact
+
+Calvin Rohloff - [@zickzenni](https://twitter.com/zickzenni) - zickzenni@gmail.com
+
+Project Link: [https://github.com/ZickZenni/WaveCord](https://github.com/ZickZenni/WaveCord)

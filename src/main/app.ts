@@ -158,6 +158,13 @@ export default class WaveCordApp {
       return this.discord?.getChannel(channelId);
     });
 
+    ipcMain.handle('DISCORD_GET_MESSAGES', (_, channelId: string) => {
+      const channel = this.discord?.getChannel(channelId);
+      if (channel === null || channel === undefined) return [];
+
+      return channel.getMessages(this.discord!);
+    });
+
     ipcMain.handle(
       'DISCORD_GET_LAST_VISITED_GUILD_CHANNEL',
       (_, guildId: string) => {

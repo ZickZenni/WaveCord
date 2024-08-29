@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { DiscordClient } from '../common/discord/client/client';
 import logger from '../common/logger';
+import GatewayEvent from '../common/discord/gateway/event';
 
 export default class WaveCordApp {
   public readonly resourcesPath: string;
@@ -41,9 +42,14 @@ export default class WaveCordApp {
 
     logger.log('Connecting to discord...');
     this.discord = new DiscordClient(this.token);
+
     this.discord.on('connect', () => {
       logger.log('Discord is ready.');
       this.discord!.ready = true;
+    });
+
+    this.discord.on('event', (event: GatewayEvent) => {
+      logger.log('Received discord event: ', event.event);
     });
 
     app.on('ready', async () => {
@@ -140,6 +146,12 @@ export default class WaveCordApp {
 
     ipcMain.handle('DISCORD_GET_GUILDS', () => {
       return this.discord ? this.discord.guilds.getGuilds() : [];
+    });
+
+    ipcMain.handle('DISCORD_LOAD_GUILD', (_, id: string) => {
+      return this.discord
+        ? this.discord.guilds.getGuilds().find((v) => v.id === id)
+        : [];
     });
   }
 

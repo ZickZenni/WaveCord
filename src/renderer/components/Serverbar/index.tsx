@@ -37,7 +37,7 @@ export default function Serverbar() {
     <div className="serverbar__container hidden_scrollbar">
       <div className="serverbar__list hidden_scrollbar">
         {guilds.map((guild) => {
-          const selected = location.pathname.endsWith(`/guild/${guild.id}`);
+          const selected = location.pathname.startsWith(`/guild/${guild.id}`);
 
           return (
             <Link

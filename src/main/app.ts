@@ -118,6 +118,14 @@ export default class WaveCordApp {
 
     // Open urls in the user's browser
     this.window.webContents.setWindowOpenHandler((edata) => {
+      const url = new URL(edata.url);
+      const port = process.env.PORT || 1212;
+
+      // Prevent opening link that link to the frontend
+      if (url.host === `localhost:${port}`) {
+        return { action: 'deny' };
+      }
+
       shell.openExternal(edata.url);
       return { action: 'deny' };
     });

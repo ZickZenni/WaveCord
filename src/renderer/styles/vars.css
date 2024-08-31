@@ -1,14 +1,17 @@
 :root {
   --text: #e4edf6;
+  --unselected-text: #949BA4;
 
-  --background: #111e2a;
-  --background-bright: #192b3b;
-  --background-dim: #0d1821;
+  --background: #171B1D;
+  --background2: #0A0E0F;
+  --border: #212328;
 
   --primary: #85b9ea;
   --secondary: #0f599e;
   --accent: #1489f8;
 
-  --titlebar-height: 26px;
-  --serverbar-width: 86px;
+  --border-size: 2px;
+  --titlebar-height: 24px;
+  --topbar-height: 150px;
+  --serverbar-width: 75px;
 }

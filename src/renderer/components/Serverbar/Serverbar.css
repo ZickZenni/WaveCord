@@ -1,5 +1,5 @@
 :root {
-  --serverbar--server-size: calc(var(--serverbar-width) - 27px);
+  --serverbar--server-size: 45px;
 }
 
 .serverbar__container {
@@ -8,19 +8,19 @@
   left: 0;
   width: var(--serverbar-width);
   height: 100%;
-  overflow: hidden;
-  background: var(--background-bright);
+  background: var(--background);
 }
 
 .serverbar__list {
   display: flex;
   flex-direction: column;
-  margin-top: var(--titlebar-height);
+  padding-top: 20px;
   gap: 12px;
   height: calc(100% - var(--titlebar-height) - 10px);
-  padding-bottom: 10px;
+  padding-bottom: 20px;
   overflow-y: auto;
   align-items: center;
+  border-right: var(--border) var(--border-size) solid;
 }
 
 .serverbar__server {

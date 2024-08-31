@@ -18,27 +18,39 @@ export default function Titlebar() {
 
   return (
     <div className="titlebar__bar">
-      <img
+      <div
         className="titlebar__button"
-        src={CloseIcon}
-        alt="Close Button"
         onClick={handleClose}
         role="presentation"
-      />
-      <img
+      >
+        <img
+          className="titlebar__button_icon"
+          src={CloseIcon}
+          alt="Close Button"
+        />
+      </div>
+      <div
         className="titlebar__button"
-        src={MaximizeIcon}
-        alt="Maximize Button"
         onClick={handleMaximize}
         role="presentation"
-      />
-      <img
+      >
+        <img
+          className="titlebar__button_icon"
+          src={MaximizeIcon}
+          alt="Maximize Button"
+        />
+      </div>
+      <div
         className="titlebar__button"
-        src={MinimizeIcon}
-        alt="Minimize Button"
         onClick={handleMinimize}
         role="presentation"
-      />
+      >
+        <img
+          className="titlebar__button_icon"
+          src={MinimizeIcon}
+          alt="Minimize Button"
+        />
+      </div>
     </div>
   );
 }

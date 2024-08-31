@@ -13,6 +13,7 @@ export enum ChannelType {
   GroupDirectMessage = 3,
   GuildCategory = 4,
   GuildAnnouncement = 5,
+  WelcomeMessage = 7,
   AnnouncementThread = 10,
   PublicThread = 11,
   PrivateThread = 12,

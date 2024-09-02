@@ -170,7 +170,8 @@ export default class WaveCordApp {
       if (userId === '@me') {
         return this.discord.selfUser;
       }
-      return null;
+
+      return this.discord.users.getUsers().get(userId) ?? null;
     });
 
     ipcMain.handle('DISCORD_GET_GUILDS', () => {

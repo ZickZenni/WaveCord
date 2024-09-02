@@ -98,7 +98,7 @@ export interface SupplementalGuild {
 
 export interface ReadySupplementalData {
   merged_presences: MergedPresences;
-  merged_members: any[];
+  merged_members: Member[];
   lazy_private_channels: any[];
   guilds: SupplementalGuild[];
   game_invites: any[];

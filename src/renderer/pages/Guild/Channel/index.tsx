@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Channel, { ChannelMessage } from '../../../../common/discord/channel';
 import './Channel.css';
+import { parseMentions } from '../../../utils/parser';
 
 export default function ChannelPage() {
   const params = useParams();
@@ -22,13 +23,27 @@ export default function ChannelPage() {
       .then(async (data: Channel | null) => {
         setChannel(data);
 
-        if (data)
-          setMessages(
+        if (data) {
+          const newMessages: ChannelMessage[] =
             await window.electron.ipcRenderer.invoke(
               'DISCORD_GET_MESSAGES',
               channelId,
-            ),
-          );
+            );
+
+          const results = [];
+          for (let i = 0; i < newMessages.length; i += 1) {
+            const message = newMessages[i];
+            results.push(parseMentions(message.content));
+          }
+
+          const parsed = await Promise.all(results);
+          for (let i = 0; i < newMessages.length; i += 1) {
+            const message = newMessages[i];
+            message.content = parsed[i];
+          }
+
+          setMessages(newMessages);
+        }
 
         return true;
       })

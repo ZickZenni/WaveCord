@@ -48,6 +48,31 @@ export class GatewayClient extends events.EventEmitter {
     this.websocket = new WebSocket(
       'wss://gateway.discord.gg/?v=10&encoding=json',
     );
+    /* token: this.discord.token,
+          capabilities: 30717,
+          properties: {
+            os: 'Linux',
+            browser: 'chrome',
+            device: '',
+            system_locale: 'en-US',
+            browser_user_agent:
+              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36',
+            browser_version: '67.0.3396.87',
+            os_version: '10',
+            referrer: '',
+            referring_domain: '',
+            referrer_current: '',
+            referring_domain_current: '',
+            release_channel: 'stable',
+            client_build_number: '323539',
+            client_event_source: null,
+          },
+          presence: {
+            status: 'online',
+            since: 0,
+            isAFK: false,
+          },
+          compress: false, */
     this.websocket.on('open', () => {
       this.sendEvent({
         op: 2,

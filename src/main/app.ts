@@ -22,6 +22,8 @@ export default class WaveCordApp {
 
   public discord: DiscordClient | null = null;
 
+  public quitting: boolean = false;
+
   public constructor() {
     app.setPath('userData', path.join(app.getPath('appData'), 'WaveCord'));
 
@@ -34,7 +36,7 @@ export default class WaveCordApp {
     logger.log('Starting app...');
 
     if (!this.instanceLock) {
-      app.quit();
+      this.quit();
       return;
     }
 
@@ -66,9 +68,14 @@ export default class WaveCordApp {
       // Respect the OSX convention of having the application in memory even
       // after all windows have been closed
       if (process.platform !== 'darwin') {
-        app.quit();
+        this.quit();
       }
     });
+  }
+
+  public quit() {
+    this.quitting = true;
+    app.quit();
   }
 
   private async init() {
@@ -110,8 +117,13 @@ export default class WaveCordApp {
       this.window.show();
     });
 
-    this.window.on('closed', () => {
-      this.window = null;
+    this.window.on('close', (event) => {
+      if (!this.quitting) {
+        event.preventDefault();
+        this.window?.hide();
+      } else this.window = null;
+
+      return false;
     });
 
     this.window.setMenu(null);
@@ -144,7 +156,7 @@ export default class WaveCordApp {
 
     /* App Ipc */
     ipcMain.on('APP_EXIT', () => {
-      app.exit();
+      this.window?.close();
     });
 
     /* Discord Ipc */
@@ -215,13 +227,25 @@ export default class WaveCordApp {
     const contextMenu = Menu.buildFromTemplate([
       { type: 'separator' },
       {
+        label: 'Show',
+        type: 'normal',
+        click: () => {
+          this.window?.show();
+        },
+      },
+      {
         label: 'Quit',
         type: 'normal',
         click: () => {
-          app.quit();
+          this.quit();
         },
       },
     ]);
+    this.tray.on('click', () => {
+      if (this.window === null) return;
+
+      this.window.show();
+    });
     this.tray.setContextMenu(contextMenu);
   }
 

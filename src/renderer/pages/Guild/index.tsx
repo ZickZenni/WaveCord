@@ -19,6 +19,7 @@ import { Guild } from '../../../common/discord/guild';
 import Channel, { ChannelType } from '../../../common/discord/channel';
 import Topbar from '../../components/Topbar';
 import { sortChannels } from '../../utils/channelUtils';
+import UserPanel from '../../components/UserPanel';
 
 function ChannelWrapper({
   children,
@@ -115,43 +116,54 @@ export default function GuildPage() {
             </div>
           )}
         </div>
-        <div className="guild_page__channel_list app__item_list hidden_scrollbar">
-          {sorted.map((channel) => {
-            const isCategory = channel.type === ChannelType.GuildCategory;
-            const isCurrent =
-              location.pathname === `/guild/${guild?.id}/channel/${channel.id}`;
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            width: 'var(--guild-page--sidebar-width)',
+            overflow: 'hidden',
+          }}
+        >
+          <div className="guild_page__channel_list app__item_list hidden_scrollbar">
+            {sorted.map((channel) => {
+              const isCategory = channel.type === ChannelType.GuildCategory;
+              const isCurrent =
+                location.pathname ===
+                `/guild/${guild?.id}/channel/${channel.id}`;
 
-            const getIcon = () => {
-              switch (channel.type) {
-                case ChannelType.GuildVoice:
-                  return VoiceChannelIcon;
-                case ChannelType.GuildAnnouncement:
-                  return AnnouncementChannelIcon;
-                case ChannelType.GuildStageVoice:
-                  return StageChannelIcon;
-                case ChannelType.GuildCategory:
-                  return CategoryIcon;
-                default:
-                  return TextChannelIcon;
-              }
-            };
-            return (
-              <ChannelWrapper isCurrent={isCurrent} channel={channel}>
-                {!isCategory && (
-                  <img
-                    className="guild_page__channel_icon"
-                    src={getIcon()}
-                    alt="Text Channel Icon"
-                  />
-                )}
-                <p
-                  className={`guild_page__channel_name ${isCategory ? 'guild_page__category' : ''}`}
-                >
-                  {channel.name}
-                </p>
-              </ChannelWrapper>
-            );
-          })}
+              const getIcon = () => {
+                switch (channel.type) {
+                  case ChannelType.GuildVoice:
+                    return VoiceChannelIcon;
+                  case ChannelType.GuildAnnouncement:
+                    return AnnouncementChannelIcon;
+                  case ChannelType.GuildStageVoice:
+                    return StageChannelIcon;
+                  case ChannelType.GuildCategory:
+                    return CategoryIcon;
+                  default:
+                    return TextChannelIcon;
+                }
+              };
+              return (
+                <ChannelWrapper isCurrent={isCurrent} channel={channel}>
+                  {!isCategory && (
+                    <img
+                      className="guild_page__channel_icon"
+                      src={getIcon()}
+                      alt="Text Channel Icon"
+                    />
+                  )}
+                  <p
+                    className={`guild_page__channel_name ${isCategory ? 'guild_page__category' : ''}`}
+                  >
+                    {channel.name}
+                  </p>
+                </ChannelWrapper>
+              );
+            })}
+          </div>
+          <UserPanel />
         </div>
         <div className="guild_page__content">
           <Outlet />

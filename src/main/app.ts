@@ -164,6 +164,15 @@ export default class WaveCordApp {
       return this.discord ? this.discord.ready : false;
     });
 
+    ipcMain.handle('DISCORD_GET_USER', (_, userId: string) => {
+      if (this.discord === null) return null;
+
+      if (userId === '@me') {
+        return this.discord.selfUser;
+      }
+      return null;
+    });
+
     ipcMain.handle('DISCORD_GET_GUILDS', () => {
       return this.discord ? this.discord.guilds.getGuilds() : [];
     });

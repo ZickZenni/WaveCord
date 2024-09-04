@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import './Serverbar.css';
 import { Link, useLocation } from 'react-router-dom';
-import { Guild } from '../../../common/discord/guild';
+import RendererGuild from '../../../discord/structures/guild/RendererGuild';
+import { IGuildData } from '../../../discord/structures/guild/BaseGuild';
 
 export default function Serverbar() {
   // States
-  const [guilds, setGuilds] = useState<Guild[]>([]);
+  const [guilds, setGuilds] = useState<RendererGuild[]>([]);
 
   const location = useLocation();
 
@@ -17,7 +18,7 @@ export default function Serverbar() {
 
       if (!ready) return;
 
-      const data: Guild[] = await window.electron.ipcRenderer
+      const data: IGuildData[] = await window.electron.ipcRenderer
         .invoke('discord:guilds')
         .catch((err) => window.logger.error(err));
 
@@ -25,7 +26,7 @@ export default function Serverbar() {
         'Received guilds for server list:',
         data.map((v) => `${v.id}`).join(','),
       );
-      setGuilds(data);
+      setGuilds(data.map((v) => new RendererGuild(v)));
       clearInterval(interval);
     }, 1000);
     return () => {

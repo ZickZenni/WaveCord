@@ -31,7 +31,7 @@ export class ChannelManager {
     options: SingleChannelFetchOptions | GuildChannelFetchOptions,
   ): Promise<MainChannel | MainChannel[] | null> {
     if ('channelId' in options) {
-      const opts = options as SingleChannelFetchOptions;
+      // const opts = options as SingleChannelFetchOptions;
 
       return null;
     }

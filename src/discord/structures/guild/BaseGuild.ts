@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Client } from '../core/client';
-import { IChannelData } from './Channel';
-import { Snowflake } from './Snowflake';
+import { IChannelData } from '../channel/BaseChannel';
+import { Snowflake } from '../Snowflake';
 
 /**
  * https://discord.com/developers/docs/resources/guild#guild-object-verification-level
@@ -155,9 +154,7 @@ export interface IGuildData {
   channels?: IChannelData[];
 }
 
-export class Guild {
-  private readonly client: Client | null;
-
+export abstract class BaseGuild {
   public readonly id: Snowflake;
 
   public name: string;
@@ -214,8 +211,7 @@ export class Guild {
 
   public safetyAlertsChannelId: Snowflake | null;
 
-  constructor(client: Client | null, data: IGuildData) {
-    this.client = client;
+  constructor(data: IGuildData) {
     this.id = data.id;
     this.name = data.name;
     this.icon = data.icon;
@@ -281,15 +277,14 @@ export class Guild {
       this.nsfwLevel = data.nsfw_level;
       this.premiumProgressBarEnabled = data.premium_progress_bar_enabled;
       this.safetyAlertsChannelId = data.safety_alerts_channel_id;
-      return;
     }
 
-    if (this.client === null) return;
-
+    /*
     const json = (await this.client.restGet(
       `/guilds/${this.id}?with_counts=true`,
     )) as IGuildData;
     this.patch(json);
+    */
   }
 
   public getIconUrl(): string {

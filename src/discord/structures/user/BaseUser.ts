@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Client } from '../core/client';
-import { Snowflake } from './Snowflake';
+import { Snowflake } from '../Snowflake';
 
 export enum UserType {
   User,
@@ -41,9 +40,7 @@ export interface IUserData {
   avatar_decoration_data?: IAvatarDecorationData | null;
 }
 
-export class User {
-  private readonly client: Client | null;
-
+export default class BaseUser {
   public readonly id: Snowflake;
 
   public readonly type: UserType;
@@ -76,8 +73,7 @@ export class User {
 
   public avatarDecorationData: IAvatarDecorationData | null;
 
-  constructor(client: Client | null, data: IUserData) {
-    this.client = client;
+  constructor(data: IUserData) {
     this.id = data.id;
     this.username = data.username;
     this.discriminator = data.discriminator;
@@ -126,7 +122,7 @@ export class User {
   }
 
   public getAvatarUrl(): string {
-    return '';
+    return `https://cdn.discordapp.com/avatars/${this.id}/${this.avatar}.png`;
   }
 
   public toRaw(): IUserData {

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 
-import { IGuildData } from '../structures/Guild';
-import { IUserData } from '../structures/User';
+import { IGuildData } from '../structures/guild/BaseGuild';
+import { IUserData } from '../structures/user/BaseUser';
 
 export enum GatewayOpcodes {
   Dispatch,

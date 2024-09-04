@@ -1,8 +1,9 @@
 import { CacheHolder } from '../core/cache';
 import { Client } from '../core/client';
 import { debug, error } from '../core/logger';
-import { Guild, IGuildData } from '../structures/Guild';
 import { Snowflake } from '../structures/Snowflake';
+import { IGuildData } from '../structures/guild/BaseGuild';
+import MainGuild from '../structures/guild/MainGuild';
 
 export interface BaseGuildFetchOptions {
   skipCache?: boolean;
@@ -20,7 +21,7 @@ export interface MultiGuildFetchOptions extends BaseGuildFetchOptions {
 export class GuildManager {
   private readonly client: Client;
 
-  public readonly cache: CacheHolder<Snowflake, Guild>;
+  public readonly cache: CacheHolder<Snowflake, MainGuild>;
 
   constructor(client: Client) {
     this.client = client;
@@ -33,7 +34,7 @@ export class GuildManager {
    */
   public async fetch(
     options: SingleGuildFetchOptions | MultiGuildFetchOptions,
-  ): Promise<Guild | Guild[] | null> {
+  ): Promise<MainGuild | MainGuild[] | null> {
     // Single Guild Fetch
     if ('id' in options) {
       const opts = options as SingleGuildFetchOptions;
@@ -61,7 +62,7 @@ export class GuildManager {
       );
 
       const array = json as IGuildData[];
-      const guildArray = array.map((v) => new Guild(this.client, v));
+      const guildArray = array.map((v) => new MainGuild(v));
       guildArray.forEach((guild) => this.cache.set(guild.id, guild));
 
       debug('GuildManager', 'Fetched and cached', array.length, 'guilds.');

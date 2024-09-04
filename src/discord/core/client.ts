@@ -2,12 +2,12 @@ import { TypedEmitter } from 'tiny-typed-emitter';
 import { WebSocket } from 'ws';
 import { Gateway } from '../ws/gateway';
 import { GatewayReadyDispatchData, GatewaySocketEvent } from '../ws/types';
-import { User } from '../structures/User';
 import { debug, setDebugging } from './logger';
 import { GuildManager } from '../managers/GuildManager';
 import { ChannelManager } from '../managers/ChannelManager';
-import { Guild } from '../structures/Guild';
+import MainGuild from '../structures/guild/MainGuild';
 import MainChannel from '../structures/channel/MainChannel';
+import MainUser from '../structures/user/MainUser';
 
 export interface ClientEvents {
   ready: () => void;
@@ -28,7 +28,7 @@ export class Client extends TypedEmitter<ClientEvents> {
 
   public readonly channels: ChannelManager;
 
-  public user: User | null;
+  public user: MainUser | null;
 
   private token: string;
 
@@ -45,7 +45,7 @@ export class Client extends TypedEmitter<ClientEvents> {
 
         // Cache all guilds
         data.guilds.forEach((guildData) => {
-          this.guilds.cache.set(guildData.id, new Guild(this, guildData));
+          this.guilds.cache.set(guildData.id, new MainGuild(guildData));
 
           // Check if the guild data has channels in it
           if (guildData.channels) {
@@ -62,7 +62,7 @@ export class Client extends TypedEmitter<ClientEvents> {
             });
           }
         });
-        this.user = new User(this, data.user);
+        this.user = new MainUser(data.user);
 
         debug(
           'Client',

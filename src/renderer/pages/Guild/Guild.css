@@ -26,7 +26,6 @@
 }
 
 .guild_page__content {
-  width: calc(100% - 270px - var(--guild-page--sidebar-width));
   background: var(--background2);
   height: 100%;
 }

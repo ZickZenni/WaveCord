@@ -9,7 +9,7 @@ export default function Loading() {
   useEffect(() => {
     const interval = setInterval(() => {
       window.electron.ipcRenderer
-        .invoke('DISCORD_READY')
+        .invoke('discord:ready')
         .then((value: boolean) => {
           const container = document.getElementById('loading__container');
           if (container === null) return false;

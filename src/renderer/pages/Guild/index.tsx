@@ -15,11 +15,16 @@ import StageChannelIcon from '../../../../assets/app/icons/channel/radio.svg';
 import CategoryIcon from '../../../../assets/app/icons/channel/arrow-down.svg';
 
 import './Guild.css';
-import { Guild } from '../../../common/discord/guild';
-import Channel, { ChannelType } from '../../../common/discord/channel';
 import Topbar from '../../components/Topbar';
 import { sortChannels } from '../../utils/channelUtils';
 import UserPanel from '../../components/UserPanel';
+import RendererChannel from '../../../discord/structures/channel/RendererChannel';
+import {
+  ChannelType,
+  IChannelData,
+} from '../../../discord/structures/channel/BaseChannel';
+import RendererGuild from '../../../discord/structures/guild/RendererGuild';
+import { IGuildData } from '../../../discord/structures/guild/BaseGuild';
 
 function ChannelWrapper({
   children,
@@ -28,7 +33,7 @@ function ChannelWrapper({
 }: {
   children: ReactNode[];
   isCurrent: boolean;
-  channel: Channel;
+  channel: RendererChannel;
 }) {
   const classes = `guild_page__channel ${isCurrent ? 'guild_page__current_channel' : ''}`;
 
@@ -61,26 +66,28 @@ export default function GuildPage() {
   const guildId = params.id ?? '';
 
   // States
-  const [guild, setGuild] = useState<Guild | null | undefined>(undefined);
+  const [guild, setGuild] = useState<RendererGuild | null | undefined>(
+    undefined,
+  );
+  const [channels, setChannels] = useState<RendererChannel[]>([]);
+  const memberListEnabled = false;
 
   useEffect(() => {
     if (guild === undefined || (guild && guild.id !== guildId)) {
       // Load guild if guild id is not invalid
       if (guildId.length !== 0) {
         window.electron.ipcRenderer
-          .invoke('DISCORD_LOAD_GUILD', guildId)
-          .then((data) => {
-            setGuild(data);
+          .invoke('discord:fetch-guild', guildId)
+          .then((data: IGuildData) => {
+            setGuild(new RendererGuild(data));
             return true;
           })
           .catch((err) => window.logger.error(err));
 
         window.electron.ipcRenderer
-          .invoke('DISCORD_GET_LAST_VISITED_GUILD_CHANNEL', guildId)
-          .then((channel: Channel | null) => {
-            if (channel !== null) {
-              navigate(`/guild/${guildId}/channel/${channel.id}`);
-            }
+          .invoke('discord:channels', guildId)
+          .then((data: IChannelData[]) => {
+            setChannels(data.map((v) => new RendererChannel(v)));
             return true;
           })
           .catch((err) => window.logger.error(err));
@@ -98,7 +105,7 @@ export default function GuildPage() {
   if (guild === null)
     return <p>Server does not exist or you are not in this server!</p>;
 
-  const sorted = sortChannels(guild ? guild.channels : []);
+  const sorted = sortChannels(channels);
 
   return (
     <div className="guild_page">
@@ -165,18 +172,15 @@ export default function GuildPage() {
           </div>
           <UserPanel />
         </div>
-        <div className="guild_page__content">
+        <div
+          className="guild_page__content"
+          style={{
+            width: `calc(100% - ${memberListEnabled ? 270 : 0}px - var(--guild-page--sidebar-width))`,
+          }}
+        >
           <Outlet />
         </div>
-        <div className="guild_page__member_list">
-          {guild?.members.map((member) => {
-            return (
-              <div key={`GuildPage:Member:${member.user_id}`}>
-                {member.user_id}
-              </div>
-            );
-          })}
-        </div>
+        {memberListEnabled && <div className="guild_page__member_list" />}
       </div>
     </div>
   );

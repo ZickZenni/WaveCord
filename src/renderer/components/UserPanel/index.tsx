@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
 import './UserPanel.css';
-import { User } from '../../../common/discord/user';
+import RendererUser from '../../../discord/structures/user/RendererUser';
+import { IUserData } from '../../../discord/structures/user/BaseUser';
 
 export default function UserPanel() {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<RendererUser | null>(null);
 
   useEffect(() => {
     window.electron.ipcRenderer
-      .invoke('DISCORD_GET_USER', '@me')
-      .then((data) => {
-        setUser(data);
+      .invoke('discord:user')
+      .then((data: IUserData) => {
+        setUser(new RendererUser(data));
         return true;
       })
       .catch((err) => window.logger.error(err));
@@ -27,7 +28,7 @@ export default function UserPanel() {
       <div className="userpanel__user_info">
         <img
           className="userpanel__user_avatar"
-          src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`}
+          src={user.getAvatarUrl()}
           alt=""
         />
         <p className="userpanel__user_name">{user.globalName}</p>

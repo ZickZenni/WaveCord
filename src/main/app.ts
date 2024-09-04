@@ -1,10 +1,11 @@
 /* eslint-disable global-require */
-import { app, BrowserWindow, ipcMain, Menu, shell, Tray } from 'electron';
+import { app, BrowserWindow, Menu, shell, Tray } from 'electron';
 import fs from 'fs';
 import path from 'path';
-import { DiscordClient } from '../common/discord/client/client';
-import logger from '../common/logger';
-import GatewayEvent from '../common/discord/gateway/event';
+import logger, { Logger } from '../common/log/logger';
+import { Client } from '../discord/core/client';
+import { GatewaySocketEvent } from '../discord/ws/types';
+import { registerHandler, registerListener } from './ipc';
 
 export default class WaveCordApp {
   public readonly resourcesPath: string;
@@ -20,11 +21,17 @@ export default class WaveCordApp {
 
   public token: string = '';
 
-  public discord: DiscordClient | null = null;
+  public discord: Client;
+
+  public ready: boolean = false;
 
   public quitting: boolean = false;
 
+  private rendererLogger = new Logger('renderer');
+
   public constructor() {
+    this.discord = new Client({ debug: true });
+
     app.setPath('userData', path.join(app.getPath('appData'), 'WaveCord'));
 
     this.resourcesPath = app.isPackaged
@@ -32,8 +39,7 @@ export default class WaveCordApp {
       : path.join(__dirname, '../../assets');
     this.instanceLock = app.requestSingleInstanceLock();
 
-    logger.init();
-    logger.log('Starting app...');
+    logger.info('Starting app...');
 
     if (!this.instanceLock) {
       this.quit();
@@ -42,17 +48,16 @@ export default class WaveCordApp {
 
     this.loadUser();
 
-    logger.log('Connecting to discord...');
-    this.discord = new DiscordClient(this.token);
-
-    this.discord.on('connect', () => {
-      logger.log('Discord is ready.');
-      this.discord!.ready = true;
+    logger.info('Connecting to discord...');
+    this.discord.on('ready', () => {
+      logger.info('Discord is ready');
+      this.ready = true;
+    });
+    this.discord.on('dispatch', (event: GatewaySocketEvent) => {
+      logger.info('Received event: ', event.event);
     });
 
-    this.discord.on('event', (event: GatewayEvent) => {
-      logger.log('Received discord event: ', event.event);
-    });
+    this.discord.login(this.token);
 
     app.on('ready', async () => {
       await this.init();
@@ -89,7 +94,7 @@ export default class WaveCordApp {
       await WaveCordApp.installExtensions();
     }
 
-    logger.log('Creating new window.');
+    logger.info('Creating new window.');
     this.window = new BrowserWindow({
       show: false,
       width: 1250,
@@ -113,7 +118,7 @@ export default class WaveCordApp {
       if (!this.window) {
         throw new Error('"window" is not defined');
       }
-      logger.log('Window ready to be shown.');
+      logger.info('Window ready to be shown.');
       this.window.show();
     });
 
@@ -142,96 +147,83 @@ export default class WaveCordApp {
       return { action: 'deny' };
     });
 
-    /* Window Ipc */
-    ipcMain.on('WINDOW_MINIMIZE', () => {
+    this.registerIpcs();
+  }
+
+  private registerIpcs() {
+    registerListener('window:minimize', () => {
       this.window?.minimize();
     });
 
-    ipcMain.on('WINDOW_MAXIMIZE', () => {
+    registerListener('window:maximize', () => {
       if (this.window === null) return;
 
       if (this.window.isMaximized()) this.window.unmaximize();
       else this.window.maximize();
     });
 
-    /* App Ipc */
-    ipcMain.on('APP_EXIT', () => {
+    registerListener('logger:info', (...args: any[]) => {
+      this.rendererLogger.info(...args);
+    });
+
+    registerListener('logger:warn', (...args: any[]) => {
+      this.rendererLogger.warn(...args);
+    });
+
+    registerListener('logger:error', (...args: any[]) => {
+      this.rendererLogger.error(...args);
+    });
+
+    registerListener('logger:crit', (...args: any[]) => {
+      this.rendererLogger.crit(...args);
+    });
+
+    registerListener('logger:debug', (...args: any[]) => {
+      this.rendererLogger.debug(...args);
+    });
+
+    registerListener('app:exit', () => {
       this.window?.close();
     });
 
-    /* Discord Ipc */
-    ipcMain.handle('DISCORD_READY', () => {
-      return this.discord ? this.discord.ready : false;
+    registerHandler('discord:ready', () => {
+      return this.ready;
     });
 
-    ipcMain.handle('DISCORD_GET_USER', (_, userId: string) => {
-      if (this.discord === null) return null;
+    registerHandler('discord:user', (userId: string | undefined) => {
+      if (userId === undefined) return this.discord.user?.toRaw();
 
-      if (userId === '@me') {
-        return this.discord.selfUser;
-      }
       return null;
     });
 
-    ipcMain.handle('DISCORD_GET_GUILDS', () => {
-      return this.discord ? this.discord.guilds.getGuilds() : [];
+    registerHandler('discord:guilds', () => {
+      return this.discord.guilds.cache.values().map((v) => v.toRaw());
     });
 
-    ipcMain.handle('DISCORD_LOAD_GUILD', (_, id: string) => {
-      return this.discord
-        ? this.discord.guilds.getGuilds().find((v) => v.id === id)
-        : [];
+    registerHandler('discord:channels', (guildId: string) => {
+      return this.discord.channels.list(guildId).map((v) => v.toRaw());
     });
 
-    ipcMain.handle('DISCORD_LOAD_CHANNEL', (_, channelId: string) => {
-      return this.discord?.getChannel(channelId);
+    registerHandler('discord:fetch-guild', (id: string) => {
+      const guild = this.discord.guilds.cache.get(id);
+      return guild ? guild.toRaw() : null;
     });
 
-    ipcMain.handle('DISCORD_GET_MESSAGES', (_, channelId: string) => {
-      const channel = this.discord?.getChannel(channelId);
-      if (channel === null || channel === undefined) return [];
-
-      return channel.getMessages(this.discord!);
+    registerHandler('discord:load-channel', (channelId: string) => {
+      const channel = this.discord.channels.cache.get(channelId);
+      return channel ? channel.toRaw() : null;
     });
 
-    ipcMain.handle(
-      'DISCORD_GET_LAST_VISITED_GUILD_CHANNEL',
-      (_, guildId: string) => {
-        const guild = this.discord
-          ? (this.discord.guilds.getGuilds().find((v) => v.id === guildId) ??
-            null)
-          : null;
+    registerHandler('discord:fetch-messages', (channelId: string) => {
+      const channel = this.discord.channels.cache.get(channelId);
+      if (channel === undefined) return [];
 
-        if (guild === null) return null;
-
-        return this.discord?.getChannel(guild.lastVisitedChannel ?? '');
-      },
-    );
-
-    ipcMain.on(
-      'DISCORD_SET_LAST_VISITED_GUILD_CHANNEL',
-      (_, channelId: string) => {
-        const channel = this.discord
-          ? this.discord.getChannel(channelId)
-          : null;
-        if (channel === null) return;
-
-        const guild = this.discord
-          ? (this.discord.guilds
-              .getGuilds()
-              .find((v) => v.id === channel.guildId) ?? null)
-          : null;
-
-        if (guild === null) return;
-
-        logger.log('Set last visited channel for guild', guild.id, channel.id);
-        guild.lastVisitedChannel = channelId;
-      },
-    );
+      return channel.fetchMessages();
+    });
   }
 
   private initTray() {
-    logger.log('Creating new tray.');
+    logger.info('Creating new tray.');
     this.tray = new Tray(path.join(this.resourcesPath, 'icon.png'));
     const contextMenu = Menu.buildFromTemplate([
       { type: 'separator' },
@@ -259,16 +251,16 @@ export default class WaveCordApp {
   }
 
   private loadUser() {
-    logger.log('Loading user token...');
+    logger.info('Loading user token...');
 
     const filePath = `${app.getPath('userData')}/user`;
     if (!fs.existsSync(filePath)) {
       fs.writeFileSync(filePath, '', 'utf8');
       logger.warn(`'${filePath}'`, 'file not found! Creating empty one...');
     } else {
-      logger.log(`'${filePath}'`, 'exists! Reading file...');
+      logger.info(`'${filePath}'`, 'exists! Reading file...');
       this.token = fs.readFileSync(filePath, 'utf8').replaceAll('\n', '');
-      logger.log('Successfully loaded user token!');
+      logger.info('Successfully loaded user token!');
     }
   }
 
@@ -292,6 +284,6 @@ export default class WaveCordApp {
         extensions.map((name) => installer[name]),
         forceDownload,
       )
-      .catch(logger.log);
+      .catch(logger.info);
   }
 }

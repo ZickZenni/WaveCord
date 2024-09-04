@@ -1,8 +1,8 @@
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
-import { IpcChannels } from './ipc';
 import moment from 'moment';
 import picocolors from 'picocolors';
+import { IpcChannels } from './ipc';
 
 const electronHandler = {
   ipcRenderer: {

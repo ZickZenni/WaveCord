@@ -18,12 +18,13 @@ import './Guild.css';
 import Topbar from '../../components/Topbar';
 import { sortChannels } from '../../utils/channelUtils';
 import UserPanel from '../../components/UserPanel';
-import { IGuildData, Guild } from '../../../discord/structures/Guild';
 import RendererChannel from '../../../discord/structures/channel/RendererChannel';
 import {
   ChannelType,
   IChannelData,
 } from '../../../discord/structures/channel/BaseChannel';
+import RendererGuild from '../../../discord/structures/guild/RendererGuild';
+import { IGuildData } from '../../../discord/structures/guild/BaseGuild';
 
 function ChannelWrapper({
   children,
@@ -65,7 +66,9 @@ export default function GuildPage() {
   const guildId = params.id ?? '';
 
   // States
-  const [guild, setGuild] = useState<Guild | null | undefined>(undefined);
+  const [guild, setGuild] = useState<RendererGuild | null | undefined>(
+    undefined,
+  );
   const [channels, setChannels] = useState<RendererChannel[]>([]);
   const memberListEnabled = false;
 
@@ -76,7 +79,7 @@ export default function GuildPage() {
         window.electron.ipcRenderer
           .invoke('discord:fetch-guild', guildId)
           .then((data: IGuildData) => {
-            setGuild(new Guild(null, data));
+            setGuild(new RendererGuild(data));
             return true;
           })
           .catch((err) => window.logger.error(err));

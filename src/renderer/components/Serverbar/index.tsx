@@ -12,16 +12,16 @@ export default function Serverbar() {
   useEffect(() => {
     const interval = setInterval(async () => {
       const ready = await window.electron.ipcRenderer
-        .invoke('DISCORD_READY')
+        .invoke('discord:ready')
         .catch((err) => window.logger.error(err));
 
       if (!ready) return;
 
       const data: Guild[] = await window.electron.ipcRenderer
-        .invoke('DISCORD_GET_GUILDS')
+        .invoke('discord:guilds')
         .catch((err) => window.logger.error(err));
 
-      window.logger.log(
+      window.logger.info(
         'Received guilds for server list:',
         data.map((v) => `${v.id}`).join(','),
       );

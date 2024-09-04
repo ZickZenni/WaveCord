@@ -1,58 +1,36 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Channel, { ChannelMessage } from '../../../../common/discord/channel';
 import './Channel.css';
-import { parseMentions } from '../../../utils/parser';
+import RendererChannel from '../../../../discord/structures/channel/RendererChannel';
+import { IChannelData } from '../../../../discord/structures/channel/BaseChannel';
+import { Message } from '../../../../discord/structures/Message';
 
 export default function ChannelPage() {
   const params = useParams();
   const channelId = params.channelId ?? '';
-  const [channel, setChannel] = useState<Channel | null>(null);
-  const [messages, setMessages] = useState<ChannelMessage[]>([]);
+  const [channel, setChannel] = useState<RendererChannel | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
-    if (channelId.length === 0) return;
-
     const messageList = document.getElementById('channel_page_message_list');
     if (messageList) {
       messageList.scrollTop = messageList.scrollHeight;
     }
 
     window.electron.ipcRenderer
-      .invoke('DISCORD_LOAD_CHANNEL', channelId)
-      .then(async (data: Channel | null) => {
-        setChannel(data);
-
-        if (data) {
-          const newMessages: ChannelMessage[] =
-            await window.electron.ipcRenderer.invoke(
-              'DISCORD_GET_MESSAGES',
-              channelId,
-            );
-
-          const results = [];
-          for (let i = 0; i < newMessages.length; i += 1) {
-            const message = newMessages[i];
-            results.push(parseMentions(message.content));
-          }
-
-          const parsed = await Promise.all(results);
-          for (let i = 0; i < newMessages.length; i += 1) {
-            const message = newMessages[i];
-            message.content = parsed[i];
-          }
-
-          setMessages(newMessages);
-        }
-
+      .invoke('discord:load-channel', channelId)
+      .then(async (data: IChannelData) => {
+        const chn = new RendererChannel(data);
+        const msgs = await chn.fetchMessages();
+        setChannel(chn);
+        setMessages(msgs);
         return true;
       })
       .catch((err) => console.error(err));
 
-    window.electron.ipcRenderer.sendMessage(
-      'DISCORD_SET_LAST_VISITED_GUILD_CHANNEL',
-      channelId,
-    );
+    return () => {
+      setMessages([]);
+    };
   }, [channelId]);
 
   if (channelId.length === 0 || channel === null) return null;

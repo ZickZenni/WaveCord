@@ -22,7 +22,7 @@ export async function parseMentions(content: string): Promise<string> {
     const mentionId = result[1];
     // eslint-disable-next-line no-await-in-loop
     const user: User | null = await window.electron.ipcRenderer
-      .invoke('DISCORD_GET_USER', mentionId)
+      .invoke('discord:user', mentionId)
       .catch((err) => window.logger.error(err));
 
     newContent = newContent.replaceAll(

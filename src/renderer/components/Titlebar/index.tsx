@@ -5,15 +5,15 @@ import './Titlebar.css';
 
 export default function Titlebar() {
   const handleMinimize = () => {
-    window.electron.ipcRenderer.sendMessage('WINDOW_MINIMIZE');
+    window.electron.ipcRenderer.sendMessage('window:minimize');
   };
 
   const handleMaximize = () => {
-    window.electron.ipcRenderer.sendMessage('WINDOW_MAXIMIZE');
+    window.electron.ipcRenderer.sendMessage('window:maximize');
   };
 
   const handleClose = () => {
-    window.electron.ipcRenderer.sendMessage('APP_EXIT');
+    window.electron.ipcRenderer.sendMessage('app:exit');
   };
 
   return (

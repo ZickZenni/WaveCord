@@ -1,17 +1,18 @@
 /* eslint-disable import/prefer-default-export */
-import Channel from '../../common/discord/channel';
 
-export function sortChannels(channels: Channel[]): Channel[] {
+import RendererChannel from '../../discord/structures/channel/RendererChannel';
+
+export function sortChannels(channels: RendererChannel[]): RendererChannel[] {
   let pairs: {
-    category: Channel | null;
-    channels: Channel[];
+    category: RendererChannel | null;
+    channels: RendererChannel[];
   }[] = [
     {
       category: null,
       channels: [],
     },
   ];
-  const waitLine: Channel[] = [];
+  const waitLine: RendererChannel[] = [];
 
   // Loop through all channels
   for (let i = 0; i < channels.length; i += 1) {

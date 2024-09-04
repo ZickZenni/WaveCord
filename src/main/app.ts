@@ -147,6 +147,10 @@ export default class WaveCordApp {
       return { action: 'deny' };
     });
 
+    this.registerIpcs();
+  }
+
+  private registerIpcs() {
     registerListener('window:minimize', () => {
       this.window?.minimize();
     });

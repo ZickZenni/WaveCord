@@ -4,9 +4,10 @@ import fs from 'fs';
 import path from 'path';
 import logger, { Logger } from '../common/log/logger';
 import { Client } from '../discord/core/client';
-import { GatewaySocketEvent } from '../discord/ws/types';
-import { registerHandler, registerListener } from './ipc';
+import { GatewayDispatchEvents, GatewaySocketEvent } from '../discord/ws/types';
+import { registerHandler, registerListener, sendToRenderer } from './ipc';
 import { CreateMessageOptions } from '../discord/structures/channel/BaseChannel';
+import { Message } from '../discord/structures/Message';
 
 export default class WaveCordApp {
   public readonly resourcesPath: string;
@@ -56,6 +57,11 @@ export default class WaveCordApp {
     });
     this.discord.on('dispatch', (event: GatewaySocketEvent) => {
       logger.info('Received event: ', event.event);
+
+      if (event.event === GatewayDispatchEvents.MessageCreate) {
+        const message = event.data as Message;
+        sendToRenderer(this.window!, 'discord:gateway:message-create', message);
+      }
     });
 
     this.discord.login(this.token);

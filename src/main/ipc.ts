@@ -1,4 +1,4 @@
-import { ipcMain } from 'electron';
+import { BrowserWindow, ipcMain } from 'electron';
 
 export type IpcChannels =
   | 'logger:info'
@@ -18,7 +18,8 @@ export type IpcChannels =
   | 'discord:user'
   | 'discord:get-last-visited-channel'
   | 'discord:set-last-visited-channel'
-  | 'discord:create-message';
+  | 'discord:create-message'
+  | 'discord:gateway:message-create';
 
 export function registerHandler(
   channel: IpcChannels,
@@ -36,4 +37,12 @@ export function registerListener(
   ipcMain.on(channel, (_, ...args: any[]) => {
     func(...args);
   });
+}
+
+export function sendToRenderer(
+  window: BrowserWindow,
+  channel: IpcChannels,
+  ...args: any[]
+) {
+  window.webContents.send(channel, ...args);
 }

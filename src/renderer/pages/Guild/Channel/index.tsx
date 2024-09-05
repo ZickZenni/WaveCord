@@ -11,27 +11,49 @@ export default function ChannelPage() {
   const [channel, setChannel] = useState<RendererChannel | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
 
+  // Live messages
   useEffect(() => {
+    window.electron.ipcRenderer.on(
+      'discord:gateway:message-create',
+      (msg: Message) => {
+        if (msg.channel_id !== channelId) return;
+
+        setMessages([msg, ...messages]);
+      },
+    );
+  }, [channel, channelId, messages]);
+
+  // Channel loading / Page loading
+  useEffect(() => {
+    const loadChannel = () => {
+      window.electron.ipcRenderer
+        .invoke('discord:load-channel', channelId)
+        .then(async (data: IChannelData) => {
+          if (data.id !== channelId) return false;
+
+          const chn = new RendererChannel(data);
+          const msgs = await chn.fetchMessages();
+          setChannel(chn);
+          setMessages(msgs);
+          return true;
+        })
+        .catch((err) => console.error(err));
+    };
+
+    if (channel !== null) {
+      if (channel.id !== channelId) {
+        loadChannel();
+      }
+      return;
+    }
+
     const messageList = document.getElementById('channel_page_message_list');
     if (messageList) {
       messageList.scrollTop = messageList.scrollHeight;
     }
 
-    window.electron.ipcRenderer
-      .invoke('discord:load-channel', channelId)
-      .then(async (data: IChannelData) => {
-        const chn = new RendererChannel(data);
-        const msgs = await chn.fetchMessages();
-        setChannel(chn);
-        setMessages(msgs);
-        return true;
-      })
-      .catch((err) => console.error(err));
-
-    return () => {
-      setMessages([]);
-    };
-  }, [channelId]);
+    loadChannel();
+  }, [channel, channelId]);
 
   if (channelId.length === 0 || channel === null) return null;
 

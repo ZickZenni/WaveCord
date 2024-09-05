@@ -1,13 +1,18 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { WebSocket } from 'ws';
 import { Gateway } from '../ws/gateway';
-import { GatewayReadyDispatchData, GatewaySocketEvent } from '../ws/types';
+import {
+  GatewayDispatchEvents,
+  GatewayReadyDispatchData,
+  GatewaySocketEvent,
+} from '../ws/types';
 import { debug, setDebugging } from './logger';
 import { GuildManager } from '../managers/GuildManager';
 import { ChannelManager } from '../managers/ChannelManager';
 import MainGuild from '../structures/guild/MainGuild';
 import MainChannel from '../structures/channel/MainChannel';
 import MainUser from '../structures/user/MainUser';
+import { Message } from '../structures/Message';
 
 export interface ClientEvents {
   ready: () => void;
@@ -69,6 +74,15 @@ export class Client extends TypedEmitter<ClientEvents> {
           "Client received 'Ready' dispatch event and is now ready to use!",
         );
         this.emit('ready');
+      }
+
+      if (event.event === GatewayDispatchEvents.MessageCreate) {
+        const message = event.data as Message;
+        const channel = this.channels.cache.get(message.channel_id);
+
+        if (channel !== undefined) {
+          channel.messages.push(message);
+        }
       }
       this.emit('dispatch', event);
     });

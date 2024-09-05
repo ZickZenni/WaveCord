@@ -6,4 +6,5 @@ export interface Message {
   timestamp: string;
   id: Snowflake;
   author: IUserData;
+  channel_id: Snowflake;
 }

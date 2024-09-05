@@ -236,6 +236,7 @@
   "electronmon": {
     "patterns": [
       "!**/**",
+      "src/discord/**",
       "src/main/**"
     ],
     "logLevel": "quiet"

@@ -21,7 +21,7 @@
   flex-direction: column-reverse;
   overflow-y: auto;
   width: 100%;
-  height: calc(100% - 40px);
+  height: calc(100% - 100px);
   gap: 8px;
   padding: var(--channel-page-messages-padding);
 }
@@ -83,4 +83,17 @@
 
 .channel_page__message_timestamp {
   color: gray;
+}
+
+.channel_page__message_input {
+  width: calc(100% - 40px - 16px);
+  height: 30px;
+  padding: 8px;
+  margin: 7px 20px;
+  font-size: medium;
+  filter: drop-shadow(0px 3px 1px #00000020);
+  background: var(--background);
+  color: white;
+  border: none;
+  border: var(--border) var(--border-size) solid;
 }

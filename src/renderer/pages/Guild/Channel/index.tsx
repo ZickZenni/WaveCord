@@ -35,6 +35,17 @@ export default function ChannelPage() {
 
   if (channelId.length === 0 || channel === null) return null;
 
+  const handleMessageInput = (e: any) => {
+    if (e.key !== 'Enter') return;
+    const { value } = e.target;
+
+    if (value === '') return;
+
+    channel?.createMessage({
+      content: value,
+    });
+  };
+
   return (
     <div className="channel_page__container">
       <div className="channel_page__header">
@@ -81,6 +92,11 @@ export default function ChannelPage() {
             );
           })}
         </div>
+        <input
+          className="channel_page__message_input"
+          type="text"
+          onKeyDown={handleMessageInput}
+        />
       </div>
     </div>
   );

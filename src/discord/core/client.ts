@@ -105,6 +105,20 @@ export class Client extends TypedEmitter<ClientEvents> {
     return json;
   }
 
+  public async restPost(path: string, data?: any): Promise<any> {
+    const url = `https://discord.com/api/v10${path}`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Authorization: this.token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data ?? {}),
+    });
+    const json = await response.json();
+    return json;
+  }
+
   /**
    * Validates if a authentication token is good for discord.
    * @param token A authentication token

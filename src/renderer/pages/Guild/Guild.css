@@ -1,7 +1,3 @@
-:root {
-  --guild-page--sidebar-width: 300px;
-}
-
 .guild_page {
   width: 100%;
   height: 100%;
@@ -17,7 +13,7 @@
 .guild_page__channel_list {
   display: flex;
   flex-direction: column;
-  width: var(--guild-page--sidebar-width);
+  width: var(--sidebar-width);
   overflow: hidden;
   height: calc(100% - var(--topbar-height) - 80px);
   background: var(--background);

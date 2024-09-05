@@ -19,7 +19,8 @@ export type IpcChannels =
   | 'discord:get-last-visited-channel'
   | 'discord:set-last-visited-channel'
   | 'discord:create-message'
-  | 'discord:gateway:message-create';
+  | 'discord:gateway:message-create'
+  | 'discord:relationships';
 
 export function registerHandler(
   channel: IpcChannels,

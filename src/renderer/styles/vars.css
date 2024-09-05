@@ -1,9 +1,9 @@
 :root {
   --text: #e4edf6;
-  --unselected-text: #949BA4;
+  --unselected-text: #949ba4;
 
-  --background: #171B1D;
-  --background2: #0A0E0F;
+  --background: #171b1d;
+  --background2: #0a0e0f;
   --border: #212328;
 
   --primary: #85b9ea;
@@ -14,4 +14,5 @@
   --titlebar-height: 24px;
   --topbar-height: 150px;
   --serverbar-width: 75px;
+  --sidebar-width: 300px;
 }

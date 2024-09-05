@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 import { IGuildData } from '../structures/guild/BaseGuild';
+import { Relationship } from '../structures/Relationship';
 import { IUserData } from '../structures/user/BaseUser';
 
 export enum GatewayOpcodes {
@@ -115,6 +116,11 @@ export interface GatewayReadyDispatchData {
   user: IUserData;
 
   /**
+   * Other users
+   */
+  users: IUserData[];
+
+  /**
    * Guilds you are in
    */
   guilds: IGuildData[];
@@ -128,4 +134,9 @@ export interface GatewayReadyDispatchData {
    * The url you'll use when reconnecting
    */
   resume_gateway_url: string;
+
+  /**
+   * Your relationships with other users
+   */
+  relationships: Relationship[];
 }

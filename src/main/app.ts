@@ -6,6 +6,7 @@ import logger, { Logger } from '../common/log/logger';
 import { Client } from '../discord/core/client';
 import { GatewaySocketEvent } from '../discord/ws/types';
 import { registerHandler, registerListener } from './ipc';
+import { CreateMessageOptions } from '../discord/structures/channel/BaseChannel';
 
 export default class WaveCordApp {
   public readonly resourcesPath: string;
@@ -220,6 +221,16 @@ export default class WaveCordApp {
 
       return channel.fetchMessages();
     });
+
+    registerHandler(
+      'discord:create-message',
+      async (channelId: string, options: CreateMessageOptions) => {
+        const channel = this.discord.channels.cache.get(channelId);
+        if (channel === undefined) return null;
+
+        return channel.createMessage(options);
+      },
+    );
   }
 
   private initTray() {

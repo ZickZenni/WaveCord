@@ -17,7 +17,8 @@ export type IpcChannels =
   | 'discord:fetch-guild'
   | 'discord:user'
   | 'discord:get-last-visited-channel'
-  | 'discord:set-last-visited-channel';
+  | 'discord:set-last-visited-channel'
+  | 'discord:create-message';
 
 export function registerHandler(
   channel: IpcChannels,

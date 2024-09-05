@@ -54,6 +54,14 @@ export interface IChannelData {
   total_message_sent?: number;
 }
 
+export interface CreateMessageOptions {
+  content?: string;
+  embeds?: any[];
+  components?: any[];
+  sticker_ids?: Snowflake[];
+  files?: any[];
+}
+
 /* eslint-disable class-methods-use-this */
 export default abstract class BaseChannel {
   public readonly id: Snowflake;
@@ -99,6 +107,14 @@ export default abstract class BaseChannel {
    * @returns Messages from the channel
    */
   public abstract fetchMessages(): Promise<Message[]>;
+
+  /**
+   * Creates a new message in the channel
+   * @param options Message options
+   */
+  public abstract createMessage(
+    options: CreateMessageOptions,
+  ): Promise<Message | null>;
 
   /**
    * Converts the class back into a raw data object

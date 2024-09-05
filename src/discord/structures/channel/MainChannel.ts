@@ -1,6 +1,11 @@
+import logger from '../../../common/log/logger';
 import { Client } from '../../core/client';
 import { Message } from '../Message';
-import BaseChannel, { ChannelType, IChannelData } from './BaseChannel';
+import BaseChannel, {
+  ChannelType,
+  CreateMessageOptions,
+  IChannelData,
+} from './BaseChannel';
 
 export default class MainChannel extends BaseChannel {
   private readonly client: Client;
@@ -28,6 +33,37 @@ export default class MainChannel extends BaseChannel {
     return this.messages;
   }
 
+  public async createMessage(
+    options: CreateMessageOptions,
+  ): Promise<Message | null> {
+    if (this.type !== ChannelType.GuildText) return null;
+
+    options.content ??= '';
+    options.components ??= [];
+    options.embeds ??= [];
+    options.files ??= [];
+    options.sticker_ids ??= [];
+
+    try {
+      const json = await this.client.restPost(
+        `/channels/${this.id}/messages`,
+        options,
+      );
+      if (json.message) return null;
+
+      const message = json as Message;
+      this.messages.push(message);
+      return message;
+    } catch (err) {
+      logger.error(
+        `[Discord/Channel] Failed to create message in channel '${this.id}': ${err}`,
+      );
+      return null;
+    }
+  }
+
+  /* --------------------------- */
+
   private async fetchMessagesApi(): Promise<Message[]> {
     if (this.type !== ChannelType.GuildText || this.client === null) return [];
 
@@ -38,7 +74,7 @@ export default class MainChannel extends BaseChannel {
       if (json.message) return [];
       return json as Message[];
     } catch (err) {
-      console.error(
+      logger.error(
         `[Discord/Channel] Failed to retrieve messages from channel '${this.id}': ${err}`,
       );
       return [];

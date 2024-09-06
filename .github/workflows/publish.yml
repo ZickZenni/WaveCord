@@ -9,7 +9,9 @@ jobs:
   publish:
     # To enable auto publishing to github, update your electron publisher
     # config in package.json > "build" and remove the conditional below
-    if: ${{ github.repository_owner == 'zickzenni' }}
+    # if: ${{ github.repository_owner == 'zickzenni' }}
+
+    if: false
 
     runs-on: ${{ matrix.os }}
 

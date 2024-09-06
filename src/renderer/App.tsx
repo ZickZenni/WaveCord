@@ -13,6 +13,7 @@ import Loading from './components/Loading';
 import HomePage from './pages/Home';
 import GuildPage from './pages/Guild';
 import ChannelPage from './pages/Guild/Channel';
+import DirectMessagePage from './pages/Home/DirectMessage';
 
 export default function App() {
   return (
@@ -22,7 +23,9 @@ export default function App() {
       <Serverbar />
       <div className="app__content">
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage />}>
+            <Route path="dm/:dmId" element={<DirectMessagePage />} />
+          </Route>
           <Route path="/guild/:id" element={<GuildPage />}>
             <Route path="channel/:channelId" element={<ChannelPage />} />
           </Route>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import Topbar from '../../components/Topbar';
 import UserPanel from '../../components/UserPanel';
 import './Home.css';
@@ -69,7 +69,9 @@ export default function HomePage() {
           </div>
           <UserPanel />
         </div>
-        <div className="home_page__content" />
+        <div className="home_page__content">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

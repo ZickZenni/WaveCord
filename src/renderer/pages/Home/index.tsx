@@ -62,7 +62,7 @@ export default function HomePage() {
                     src={user.getAvatarUrl()}
                     alt={`UserAvatarRelationship:${user.id}`}
                   />
-                  <p>{user.globalName}</p>
+                  <p>{relationship.nickname ?? user.globalName}</p>
                 </Link>
               );
             })}

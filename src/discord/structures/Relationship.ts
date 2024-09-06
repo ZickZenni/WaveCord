@@ -4,7 +4,7 @@ export interface Relationship {
   user_id: Snowflake;
   type: number;
   since: string;
-  nickname: any;
+  nickname: string | null;
   is_spam_request: boolean;
   id: Snowflake;
 }

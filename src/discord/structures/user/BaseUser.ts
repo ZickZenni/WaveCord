@@ -122,6 +122,13 @@ export default class BaseUser {
   }
 
   public getAvatarUrl(): string {
+    if (this.avatar === null) {
+      const id = BigInt(this.id);
+      // eslint-disable-next-line no-bitwise
+      const index = (id >> 22n) % 6n;
+      return `https://cdn.discordapp.com/embed/avatars/${index < 0 ? 0 : index}.png`;
+    }
+
     return `https://cdn.discordapp.com/avatars/${this.id}/${this.avatar}.png`;
   }
 

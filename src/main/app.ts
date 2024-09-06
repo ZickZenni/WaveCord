@@ -44,6 +44,7 @@ export default class WaveCordApp {
     logger.info('Starting app...');
 
     if (!this.instanceLock) {
+      logger.warn('An instance is already open. Exiting...');
       this.quit();
       return;
     }
@@ -116,6 +117,7 @@ export default class WaveCordApp {
       minHeight: 250,
       icon: path.join(this.resourcesPath, 'icon.png'),
       frame: false,
+      title: 'WaveCord',
       webPreferences: {
         preload: app.isPackaged
           ? path.join(__dirname, 'preload.js')

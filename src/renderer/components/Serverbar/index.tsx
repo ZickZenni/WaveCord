@@ -14,15 +14,15 @@ export default function Serverbar() {
     const interval = setInterval(async () => {
       const ready = await window.electron.ipcRenderer
         .invoke('discord:ready')
-        .catch((err) => window.logger.error(err));
+        .catch((err) => console.error(err));
 
       if (!ready) return;
 
       const data: IGuildData[] = await window.electron.ipcRenderer
         .invoke('discord:guilds')
-        .catch((err) => window.logger.error(err));
+        .catch((err) => console.error(err));
 
-      window.logger.info(
+      console.info(
         'Received guilds for server list:',
         data.map((v) => `${v.id}`).join(','),
       );

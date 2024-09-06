@@ -15,18 +15,18 @@ export default function HomePage() {
     const fetchRelationships = async () => {
       const ready = await window.electron.ipcRenderer
         .invoke('discord:ready')
-        .catch((err) => window.logger.error(err));
+        .catch((err) => console.error(err));
 
       if (!ready) return false;
 
       const data: any = await window.electron.ipcRenderer
         .invoke('discord:relationships')
-        .catch((err) => window.logger.error(err));
+        .catch((err) => console.error(err));
 
       const ships: Relationship[] = data.relationships;
       const usrs: IUserData[] = data.users;
 
-      window.logger.info('Received relationships:', data);
+      console.info('Received relationships:', data);
       setRelationships(ships);
       setUsers(usrs.map((v) => new RendererUser(v)));
       return true;

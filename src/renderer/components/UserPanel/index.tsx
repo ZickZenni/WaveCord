@@ -13,7 +13,7 @@ export default function UserPanel() {
         setUser(new RendererUser(data));
         return true;
       })
-      .catch((err) => window.logger.error(err));
+      .catch((err) => console.error(err));
   }, []);
 
   if (user === null)

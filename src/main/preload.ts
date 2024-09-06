@@ -1,7 +1,5 @@
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
-import moment from 'moment';
-import picocolors from 'picocolors';
 import { IpcChannels } from './ipc';
 
 const electronHandler = {
@@ -27,51 +25,6 @@ const electronHandler = {
   },
 };
 
-const loggerHandler = {
-  info(...args: any[]) {
-    console.log(
-      picocolors.gray(moment().format('hh:mm:ss')),
-      '| Info |',
-      ...args,
-    );
-    ipcRenderer.send('logger:info', ...args);
-  },
-  warn(...args: any[]) {
-    console.log(
-      picocolors.gray(moment().format('hh:mm:ss')),
-      '| Warn |',
-      ...args,
-    );
-    ipcRenderer.send('logger:warn', ...args);
-  },
-  error(...args: any[]) {
-    console.log(
-      picocolors.gray(moment().format('hh:mm:ss')),
-      '| Error |',
-      ...args,
-    );
-    ipcRenderer.send('logger:error', ...args);
-  },
-  crit(...args: any[]) {
-    console.log(
-      picocolors.gray(moment().format('hh:mm:ss')),
-      '| Crit |',
-      ...args,
-    );
-    ipcRenderer.send('logger:crit', ...args);
-  },
-  debug(...args: any[]) {
-    console.log(
-      picocolors.gray(moment().format('hh:mm:ss')),
-      '| Debug |',
-      ...args,
-    );
-    ipcRenderer.send('logger:debug', ...args);
-  },
-};
-
 contextBridge.exposeInMainWorld('electron', electronHandler);
-contextBridge.exposeInMainWorld('logger', loggerHandler);
 
-export type LoggerHandler = typeof loggerHandler;
 export type ElectronHandler = typeof electronHandler;

@@ -82,7 +82,7 @@ export default function GuildPage() {
             setGuild(new RendererGuild(data));
             return true;
           })
-          .catch((err) => window.logger.error(err));
+          .catch((err) => console.error(err));
 
         window.electron.ipcRenderer
           .invoke('discord:channels', guildId)
@@ -90,7 +90,7 @@ export default function GuildPage() {
             setChannels(data.map((v) => new RendererChannel(v)));
             return true;
           })
-          .catch((err) => window.logger.error(err));
+          .catch((err) => console.error(err));
       }
     }
 

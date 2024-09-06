@@ -92,6 +92,15 @@ export default function ChannelPage() {
                     src={`https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`}
                     alt="Avatar Icon"
                   />
+                  {message.author.avatar_decoration_data && (
+                    <img
+                      className="channel_page__user_decoration"
+                      src={`https://cdn.discordapp.com/avatar-decoration-presets/${
+                        message.author.avatar_decoration_data.asset
+                      }.png`}
+                      alt="Avatar Decoration"
+                    />
+                  )}
                 </div>
                 <div className="channel_page__message_wrapper">
                   <div className="channel_page__message_author_info">

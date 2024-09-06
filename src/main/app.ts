@@ -58,6 +58,12 @@ export default class WaveCordApp {
     this.discord.on('dispatch', (event: GatewaySocketEvent) => {
       logger.info('Received event: ', event.event);
 
+      if (event.event === GatewayDispatchEvents.Ready)
+        fs.writeFileSync(
+          '/home/rohloff/Documents/discord_ready_output.txt',
+          JSON.stringify(event.data ?? {}),
+        );
+
       if (event.event === GatewayDispatchEvents.MessageCreate) {
         const message = event.data as Message;
         sendToRenderer(this.window!, 'discord:gateway:message-create', message);
@@ -198,7 +204,7 @@ export default class WaveCordApp {
     });
 
     registerHandler('discord:user', (userId: string | undefined) => {
-      if (userId === undefined) return this.discord.user?.toRaw();
+      if (userId === undefined) return this.discord.users.clientUser?.toRaw();
 
       return null;
     });

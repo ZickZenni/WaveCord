@@ -175,7 +175,7 @@ export default function GuildPage() {
         <div
           className="guild_page__content"
           style={{
-            width: `calc(100% - ${memberListEnabled ? 270 : 0}px - var(--guild-page--sidebar-width))`,
+            width: `calc(100% - ${memberListEnabled ? 270 : 0}px - var(--sidebar-width))`,
           }}
         >
           <Outlet />

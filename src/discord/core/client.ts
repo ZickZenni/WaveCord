@@ -6,13 +6,16 @@ import {
   GatewayReadyDispatchData,
   GatewaySocketEvent,
 } from '../ws/types';
-import { debug, setDebugging } from './logger';
+import { setDebugging } from './logger';
 import { GuildManager } from '../managers/GuildManager';
 import { ChannelManager } from '../managers/ChannelManager';
 import MainGuild from '../structures/guild/MainGuild';
 import MainChannel from '../structures/channel/MainChannel';
 import MainUser from '../structures/user/MainUser';
 import { Message } from '../structures/Message';
+import { Relationship } from '../structures/Relationship';
+import { registerHandler } from '../../main/ipc';
+import UserManager from '../managers/UserManager';
 
 export interface ClientEvents {
   ready: () => void;
@@ -33,7 +36,9 @@ export class Client extends TypedEmitter<ClientEvents> {
 
   public readonly channels: ChannelManager;
 
-  public user: MainUser | null;
+  public readonly users: UserManager;
+
+  public relationships: Relationship[];
 
   private token: string;
 
@@ -67,12 +72,14 @@ export class Client extends TypedEmitter<ClientEvents> {
             });
           }
         });
-        this.user = new MainUser(data.user);
 
-        debug(
-          'Client',
-          "Client received 'Ready' dispatch event and is now ready to use!",
-        );
+        data.users.forEach((userData) => {
+          this.users.cache.set(userData.id, new MainUser(userData));
+        });
+
+        this.relationships = data.relationships;
+
+        this.users.clientUser = new MainUser(data.user);
         this.emit('ready');
       }
 
@@ -88,8 +95,10 @@ export class Client extends TypedEmitter<ClientEvents> {
     });
     this.guilds = new GuildManager(this);
     this.channels = new ChannelManager(this);
-    this.user = null;
+    this.users = new UserManager(this);
+    this.relationships = [];
     this.token = '';
+    this.registerIpcs();
   }
 
   /**
@@ -155,5 +164,21 @@ export class Client extends TypedEmitter<ClientEvents> {
       this.gateway.socket !== null &&
       this.gateway.socket.readyState === WebSocket.OPEN
     );
+  }
+
+  private registerIpcs() {
+    registerHandler('discord:relationships', () => {
+      return {
+        relationships: this.relationships,
+        users: this.users.cache
+          .values()
+          .filter((v) => {
+            return (
+              this.relationships.find((r) => r.user_id === v.id) !== undefined
+            );
+          })
+          .map((v) => v.toRaw()),
+      };
+    });
   }
 }

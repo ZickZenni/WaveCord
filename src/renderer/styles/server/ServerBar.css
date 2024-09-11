@@ -1,0 +1,5 @@
+.ServerBar {
+  width: 72px;
+  height: 100%;
+  background: var(--background-5);
+}

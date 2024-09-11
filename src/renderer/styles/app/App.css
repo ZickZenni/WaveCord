@@ -1,0 +1,37 @@
+:root {
+  --background: #0e0e0e;
+  --background-5: #1d1d1d;
+  --background-12: #373737;
+
+  color: #fff;
+  background: var(--background);
+  font-family: 'Manrope', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+p,
+a {
+  margin: 0;
+}
+
+.App {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.AppContent {
+  display: flex;
+  height: calc(100% - var(--titlebar-height));
+  margin-top: var(--titlebar-height);
+  overflow: hidden;
+}

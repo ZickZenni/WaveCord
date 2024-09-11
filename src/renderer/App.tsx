@@ -1,36 +1,29 @@
+/* eslint-disable import/order */
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Styles
-import './styles/global.css';
-import './styles/vars.css';
+import '@/styles/app/App.css';
+import '@/styles/app/TitleBar.css';
+import '@/styles/server/ServerBar.css';
 
 // Components
-import Titlebar from './components/Titlebar';
-import Serverbar from './components/Serverbar';
-import Loading from './components/Loading';
+import AppContent from '@/components/app/AppContent';
+import TitleBar from './components/app/TitleBar';
+import ServerBar from '@/components/server/ServerBar';
 
 // Pages
-import HomePage from './pages/Home';
-import GuildPage from './pages/Guild';
-import ChannelPage from './pages/Guild/Channel';
-import DirectMessagePage from './pages/Home/DirectMessage';
+import HomePage from '@/pages/HomePage/HomePage';
 
 export default function App() {
   return (
     <Router>
-      <Titlebar />
-      <Loading />
-      <Serverbar />
-      <div className="app__content">
+      <TitleBar />
+      <AppContent>
+        <ServerBar />
         <Routes>
-          <Route path="/" element={<HomePage />}>
-            <Route path="dm/:dmId" element={<DirectMessagePage />} />
-          </Route>
-          <Route path="/guild/:id" element={<GuildPage />}>
-            <Route path="channel/:channelId" element={<ChannelPage />} />
-          </Route>
+          <Route path="/" element={<HomePage />} />
         </Routes>
-      </div>
+      </AppContent>
     </Router>
   );
 }

@@ -1,0 +1,12 @@
+:root {
+  --titlebar-height: 30px;
+}
+
+.TitleBar {
+  top: 0;
+  position: absolute;
+  width: 100%;
+  height: var(--titlebar-height);
+  -webkit-app-region: drag;
+  background: var(--background-5);
+}

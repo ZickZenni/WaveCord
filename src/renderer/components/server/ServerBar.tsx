@@ -1,3 +1,14 @@
+import useGuilds from '@/hooks/useGuilds';
+import Server from './Server';
+
 export default function ServerBar() {
-  return <div className="ServerBar">server bar</div>;
+  const guilds = useGuilds();
+
+  return (
+    <div className="ServerBar">
+      {guilds.map((guild) => {
+        return <Server server={guild} />;
+      })}
+    </div>
+  );
 }

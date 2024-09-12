@@ -50,6 +50,7 @@ const configuration: webpack.Configuration = {
     plugins: [new TsconfigPathsPlugins()],
     alias: {
       '@': path.join(__dirname, '../../src/renderer'),
+      '@/discord': path.join(__dirname, '../../src/discord'),
     },
   },
 

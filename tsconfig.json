@@ -16,6 +16,7 @@
     "paths": {
       "@/assets/*": ["./assets/*"],
       "@/*": ["./src/renderer/*"],
+      "@/discord/*": ["./src/discord/*"]
     }
   },
   "exclude": ["test", "release/build", "release/app/dist", ".erb/dll"]

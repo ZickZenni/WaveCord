@@ -121,13 +121,16 @@ export default class BaseUser {
       data.avatar_decoration_data ?? this.avatarDecorationData;
   }
 
-  public getAvatarUrl(): string {
+  public getAvatarUrl(animated: bool = false): string {
     if (this.avatar === null) {
       const id = BigInt(this.id);
       // eslint-disable-next-line no-bitwise
       const index = (id >> 22n) % 6n;
       return `https://cdn.discordapp.com/embed/avatars/${index < 0 ? 0 : index}.png`;
     }
+
+    if (this.avatar.startsWith('a_') && animated)
+      return `https://cdn.discordapp.com/avatars/${this.id}/${this.avatar}.gif`;
 
     return `https://cdn.discordapp.com/avatars/${this.id}/${this.avatar}.png`;
   }

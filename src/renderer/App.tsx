@@ -5,6 +5,7 @@ import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import '@/styles/app/App.css';
 import '@/styles/app/TitleBar.css';
 import '@/styles/server/ServerBar.css';
+import '@/styles/server/Server.css';
 
 // Components
 import AppContent from '@/components/app/AppContent';

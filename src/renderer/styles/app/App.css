@@ -35,3 +35,14 @@ a {
   margin-top: var(--titlebar-height);
   overflow: hidden;
 }
+
+.hidden-scrollbar {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0; /* Remove scrollbar space */
+  background: transparent;
+}

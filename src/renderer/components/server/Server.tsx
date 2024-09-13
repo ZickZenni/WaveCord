@@ -5,8 +5,9 @@ type ServerProps = {
 };
 
 export default function Server({ server }: ServerProps) {
-  return <div>
-    <img src={server.getIconUrl()} alt="" />
+  return (
+    <div className="Server">
+      <img className="Server--icon" src={server.getIconUrl()} alt="" />
     </div>
   );
 }

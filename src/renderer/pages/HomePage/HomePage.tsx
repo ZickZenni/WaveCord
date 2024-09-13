@@ -1,3 +1,11 @@
+import PageLayout from '@/components/page/PageLayout';
+
 export default function HomePage() {
-  return <div>home page</div>;
+  return (
+    <PageLayout>
+      <div>
+        <p>Home</p>
+      </div>
+    </PageLayout>
+  );
 }

@@ -1,0 +1,13 @@
+:root {
+  --page-sidebar-width: 260px;
+}
+
+.PageSideBar {
+  display: flex;
+  align-items: center;
+  width: var(--page-sidebar-width);
+  height: calc(100% - var(--user-panel-height) - var(--user-panel-padding) * 2);
+  flex-direction: column;
+  overflow: hidden;
+  overflow-y: auto;
+}

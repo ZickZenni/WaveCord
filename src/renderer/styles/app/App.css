@@ -1,7 +1,10 @@
 :root {
-  --background: #0e0e0e;
-  --background-5: #1d1d1d;
-  --background-12: #373737;
+  --background: #141318;
+  --background-light: #1c1d21;
+  --panel-background: #262730;
+  --border-color: #1f1f23;
+
+  --app-content-padding: 14px;
 
   color: #fff;
   background: var(--background);
@@ -31,9 +34,11 @@ a {
 
 .AppContent {
   display: flex;
-  height: calc(100% - var(--titlebar-height));
+  width: calc(100% - var(--app-content-padding) * 2);
+  height: calc(100% - var(--titlebar-height) - var(--app-content-padding) * 2);
   margin-top: var(--titlebar-height);
   overflow: hidden;
+  padding: var(--app-content-padding);
 }
 
 .hidden-scrollbar {

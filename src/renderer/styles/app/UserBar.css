@@ -1,0 +1,14 @@
+.UserBar {
+  min-height: 52px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  width: 72px;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 12px;
+}
+
+.UserBar--discord {
+  width: 55%;
+}

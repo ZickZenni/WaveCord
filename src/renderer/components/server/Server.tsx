@@ -1,4 +1,5 @@
 import RendererGuild from '@/discord/structures/guild/RendererGuild';
+import { Link } from 'react-router-dom';
 
 type ServerProps = {
   server: RendererGuild;
@@ -6,8 +7,8 @@ type ServerProps = {
 
 export default function Server({ server }: ServerProps) {
   return (
-    <div className="Server">
+    <Link to={`/guild/${server.id}`} className="Server">
       <img className="Server--icon" src={server.getIconUrl()} alt="" />
-    </div>
+    </Link>
   );
 }

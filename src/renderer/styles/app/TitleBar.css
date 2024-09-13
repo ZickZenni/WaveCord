@@ -5,8 +5,44 @@
 .TitleBar {
   top: 0;
   position: absolute;
-  width: 100%;
+  width: calc(100% - 10px);
   height: var(--titlebar-height);
   -webkit-app-region: drag;
   background: var(--background-5);
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  gap: 8px;
+  padding-right: 10px;
+}
+
+.TitleBar--button {
+  -webkit-app-region: no-drag;
+  cursor: pointer;
+  width: 12px;
+  height: 12px;
+  padding: 5px;
+  background: #ffffff0d;
+  border-radius: 50%;
+  transition: background 0.11s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.TitleBar--button--icon {
+  width: 100%;
+  height: 100%;
+  filter: invert(78%) sepia(1%) saturate(0%) hue-rotate(288deg) brightness(95%)
+    contrast(91%);
+  transition: filter 0.11s ease;
+}
+
+.TitleBar--button:hover {
+  background: #222;
+}
+
+.TitleBar--button:hover .TitleBar--button--icon {
+  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(329deg)
+    brightness(104%) contrast(104%);
 }

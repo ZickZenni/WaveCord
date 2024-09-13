@@ -105,8 +105,8 @@ export default class WaveCordApp {
     logger.info('Creating new window.');
     this.window = new BrowserWindow({
       show: false,
-      width: 1250,
-      height: 697,
+      width: 1320,
+      height: 763,
       minWidth: 450,
       minHeight: 250,
       icon: path.join(this.resourcesPath, 'icon.png'),

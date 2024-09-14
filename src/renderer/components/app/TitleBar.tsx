@@ -50,6 +50,7 @@ export default function TitleBar() {
           alt="Minimize Button"
         />
       </div>
+      <p className="TitleBar--title">WaveCord</p>
     </div>
   );
 }

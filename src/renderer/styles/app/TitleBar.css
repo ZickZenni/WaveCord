@@ -43,3 +43,11 @@
   filter: invert(78%) sepia(1%) saturate(0%) hue-rotate(288deg) brightness(95%)
     contrast(91%);
 }
+
+.TitleBar--title {
+  margin-right: auto;
+  margin-top: 5px;
+  margin-left: 11px;
+  color: #777;
+  font-weight: 600;
+}

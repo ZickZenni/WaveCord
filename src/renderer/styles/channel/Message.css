@@ -1,0 +1,17 @@
+.Message {
+  display: flex;
+  gap: 8px;
+  min-height: 60px;
+}
+
+.Message--author-container {
+  display: flex;
+  flex-shrink: 0;
+  gap: 6px;
+}
+
+.Message--author-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}

@@ -1,0 +1,13 @@
+.GuildChannelPage {
+  width: calc(100% - 40px);
+  height: calc(100% - 40px);
+  padding: 20px;
+}
+
+.GuildChannelPage--messages-container {
+  display: flex;
+  flex-direction: column-reverse;
+  height: calc(100% - 20px);
+  overflow-y: auto;
+  gap: 6px;
+}

@@ -1,9 +1,10 @@
-import ChannelButton from '@/components/channel/Channel';
+import ChannelList from '@/components/channel/ChannelList';
 import PageLayout from '@/components/page/PageLayout';
 import PageSideBar from '@/components/page/PageSideBar';
+import ServerInfo from '@/components/server/ServerInfo';
 import useChannels from '@/hooks/useChannels';
 import useGuild from '@/hooks/useGuild';
-import { useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 
 export default function GuildPage() {
   const params = useParams();
@@ -13,16 +14,18 @@ export default function GuildPage() {
   const channels = useChannels(guildId);
   const guild = useGuild(guildId);
 
+  if (guild === null) return null;
+
   return (
     <PageLayout>
       <div className="GuildPage">
         <PageSideBar>
-          {channels.map((channel) => {
-            return (
-              <ChannelButton key={`Channel:${channel.id}`} channel={channel} />
-            );
-          })}
+          <ServerInfo guild={guild} />
+          <ChannelList guildId={guildId} channels={channels} />
         </PageSideBar>
+        <div className="GuildPage--content">
+          <Outlet />
+        </div>
       </div>
     </PageLayout>
   );

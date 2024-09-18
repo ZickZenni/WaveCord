@@ -1,8 +1,0 @@
-.topbar__container {
-  position: fixed;
-  top: 0;
-  width: calc(100% - var(--serverbar-width));
-  height: var(--topbar-height);
-  background: var(--background);
-  border-bottom: var(--border) var(--border-size) solid;
-}

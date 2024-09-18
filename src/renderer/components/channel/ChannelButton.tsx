@@ -1,6 +1,7 @@
 import { ChannelType } from '@/discord/structures/channel/BaseChannel';
 import RendererChannel from '@/discord/structures/channel/RendererChannel';
 import { getChannelIcon } from '@/utils/channelUtils';
+import { useLocation } from 'react-router-dom';
 
 type ChannelButtonProps = {
   channel: RendererChannel;
@@ -11,13 +12,23 @@ export default function ChannelButton({
   channel,
   onClick,
 }: ChannelButtonProps) {
+  const location = useLocation();
+
+  const isCategory = channel.type === ChannelType.GuildCategory;
+  const isSelected =
+    !isCategory && location.pathname.includes(`/channel/${channel.id}`);
+
+  let classes = !isCategory
+    ? `ChannelButton--normal`
+    : 'ChannelButton--category';
+
+  if (isSelected) {
+    classes += ' ChannelButton--selected';
+  }
+
   return (
     <div
-      className={
-        channel.type !== ChannelType.GuildCategory
-          ? `ChannelButton--normal`
-          : 'ChannelButton--category'
-      }
+      className={classes}
       onClick={() => onClick(channel)}
       role="presentation"
     >

@@ -36,7 +36,8 @@
   width: 0px;
 }
 
-.ChannelButton--normal:hover {
+.ChannelButton--normal:hover,
+.ChannelButton--selected {
   background: #1f1e25;
   color: #fff;
 }
@@ -44,5 +45,5 @@
 .ChannelButton--icon {
   width: 23px;
   filter: invert(57%) sepia(0%) saturate(256%) hue-rotate(170deg)
-  brightness(101%) contrast(84%);
+    brightness(101%) contrast(84%);
 }

@@ -52,7 +52,7 @@ export default class MainChannel extends BaseChannel {
       if (json.message) return null;
 
       const message = json as Message;
-      this.messages.push(message);
+      this.messages.unshift(message);
       return message;
     } catch (err) {
       logger.error(

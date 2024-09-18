@@ -88,7 +88,8 @@ export class Client extends TypedEmitter<ClientEvents> {
         const channel = this.channels.cache.get(message.channel_id);
 
         if (channel !== undefined) {
-          channel.messages.push(message);
+          channel.messages.unshift(message);
+          this.channels.cache.set(channel.id, channel);
         }
       }
       this.emit('dispatch', event);

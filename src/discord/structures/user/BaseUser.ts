@@ -135,6 +135,14 @@ export default class BaseUser {
     return `https://cdn.discordapp.com/avatars/${this.id}/${this.avatar}.png`;
   }
 
+  public getAvatarDecorationUrl(): string | null {
+    if (this.avatarDecorationData === null) return null;
+
+    return `https://cdn.discordapp.com/avatar-decoration-presets/${
+      this.avatarDecorationData.asset
+    }.png`;
+  }
+
   public toRaw(): IUserData {
     return {
       id: this.id,

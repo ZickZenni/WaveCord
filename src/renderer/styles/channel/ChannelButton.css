@@ -47,3 +47,10 @@
   filter: invert(57%) sepia(0%) saturate(256%) hue-rotate(170deg)
     brightness(101%) contrast(84%);
 }
+
+.ChannelButton--name {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

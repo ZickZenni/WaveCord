@@ -1,9 +1,9 @@
-import { CacheHolder } from '../core/cache';
 import { Client } from '../core/client';
 import { debug, error } from '../core/logger';
 import { IChannelData } from '../structures/channel/BaseChannel';
 import MainChannel from '../structures/channel/MainChannel';
 import { Snowflake } from '../structures/Snowflake';
+import Collection from '../util/collection';
 
 export interface GuildChannelFetchOptions {
   guildId: Snowflake;
@@ -16,11 +16,11 @@ export interface SingleChannelFetchOptions {
 export class ChannelManager {
   public readonly client: Client;
 
-  public readonly cache: CacheHolder<Snowflake, MainChannel>;
+  public readonly cache: Collection<Snowflake, MainChannel>;
 
   constructor(client: Client) {
     this.client = client;
-    this.cache = new CacheHolder();
+    this.cache = new Collection();
   }
 
   public list(guildId: Snowflake): MainChannel[] {

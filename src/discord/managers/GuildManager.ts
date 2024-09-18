@@ -1,9 +1,9 @@
-import { CacheHolder } from '../core/cache';
 import { Client } from '../core/client';
 import { debug, error } from '../core/logger';
 import { Snowflake } from '../structures/Snowflake';
 import { IGuildData } from '../structures/guild/BaseGuild';
 import MainGuild from '../structures/guild/MainGuild';
+import Collection from '../util/collection';
 
 export interface BaseGuildFetchOptions {
   skipCache?: boolean;
@@ -21,11 +21,11 @@ export interface MultiGuildFetchOptions extends BaseGuildFetchOptions {
 export class GuildManager {
   private readonly client: Client;
 
-  public readonly cache: CacheHolder<Snowflake, MainGuild>;
+  public readonly cache: Collection<Snowflake, MainGuild>;
 
   constructor(client: Client) {
     this.client = client;
-    this.cache = new CacheHolder();
+    this.cache = new Collection();
   }
 
   /**

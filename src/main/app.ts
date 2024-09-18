@@ -8,6 +8,7 @@ import { GatewayDispatchEvents, GatewaySocketEvent } from '../discord/ws/types';
 import { registerHandler, registerListener, sendToRenderer } from './ipc';
 import { CreateMessageOptions } from '../discord/structures/channel/BaseChannel';
 import { Message } from '../discord/structures/Message';
+import Tenor from './utils/tenor';
 
 export default class WaveCordApp {
   public readonly resourcesPath: string;
@@ -25,6 +26,8 @@ export default class WaveCordApp {
 
   public discord: Client;
 
+  public tenor: Tenor;
+
   public ready: boolean = false;
 
   public quitting: boolean = false;
@@ -33,6 +36,7 @@ export default class WaveCordApp {
 
   public constructor() {
     this.discord = new Client({ debug: true });
+    this.tenor = new Tenor();
 
     app.setPath('userData', path.join(app.getPath('appData'), 'WaveCord'));
 
@@ -239,6 +243,11 @@ export default class WaveCordApp {
         return channel.createMessage(options);
       },
     );
+
+    registerHandler('tenor:fetch-gif', async (url: string) => {
+      const result = await this.tenor.fetchGif(url);
+      return result;
+    });
   }
 
   private initTray() {

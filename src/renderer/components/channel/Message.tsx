@@ -41,11 +41,13 @@ export default function Message({ message }: MessageProps) {
           <p className="Message--content">{message.content}</p>
         )}
 
-        {message.attachments.map((attachment) => {
-          return (
-            <MessageAttachment key={attachment.id} attachment={attachment} />
-          );
-        })}
+        <div className="Message--attachments-container">
+          {message.attachments.map((attachment) => {
+            return (
+              <MessageAttachment key={attachment.id} attachment={attachment} />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

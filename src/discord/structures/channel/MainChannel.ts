@@ -7,6 +7,8 @@ import BaseChannel, {
   IChannelData,
 } from './BaseChannel';
 
+const supportedTypes = [ChannelType.GuildText, ChannelType.GuildAnnouncement];
+
 export default class MainChannel extends BaseChannel {
   private readonly client: Client;
 
@@ -19,7 +21,7 @@ export default class MainChannel extends BaseChannel {
   }
 
   public async fetchMessages(): Promise<Message[]> {
-    if (this.type !== ChannelType.GuildText) return [];
+    if (!supportedTypes.includes(this.type)) return [];
 
     // Retrieve and cache messages if we were not in the channel for the last 15 minutes
     if (Date.now() - this.lastFetched >= 1000 * 60 * 15) {

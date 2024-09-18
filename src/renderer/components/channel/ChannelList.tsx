@@ -9,13 +9,15 @@ type ChannelListProps = {
   channels: RendererChannel[];
 };
 
+const supportedTypes = [ChannelType.GuildText, ChannelType.GuildAnnouncement];
+
 export default function ChannelList({ guildId, channels }: ChannelListProps) {
   const navigate = useNavigate();
   const sorted = sortChannels(channels);
 
   const onChannelClick = (channel: RendererChannel) => {
     // Text Channels are currently only supported
-    if (channel.type !== ChannelType.GuildText) return;
+    if (!supportedTypes.includes(channel.type)) return;
 
     navigate(`/guild/${guildId}/channel/${channel.id}`);
   };

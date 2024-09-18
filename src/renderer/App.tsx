@@ -10,6 +10,7 @@ import '@/styles/app/UserBar.css';
 import '@/styles/channel/ChannelButton.css';
 import '@/styles/channel/ChannelList.css';
 import '@/styles/channel/Message.css';
+import '@/styles/channel/MessageAttachment.css';
 
 import '@/styles/page/GuildChannelPage.css';
 import '@/styles/page/GuildPage.css';

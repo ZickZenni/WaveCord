@@ -1,10 +1,16 @@
 .Message {
   display: flex;
   gap: 8px;
-  min-height: 60px;
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+
+.Message:hover {
+  background: #eaeaea0c;
 }
 
 .Message--author-container {
+  position: relative;
   display: flex;
   flex-shrink: 0;
   gap: 6px;
@@ -14,4 +20,15 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
+}
+
+.Message--author-decoration-img {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+}
+
+.Message--content-container {
+  display: flex;
+  flex-direction: column;
 }

@@ -121,7 +121,7 @@ export default class BaseUser {
       data.avatar_decoration_data ?? this.avatarDecorationData;
   }
 
-  public getAvatarUrl(animated: bool = false): string {
+  public getAvatarUrl(animated: boolean = false): string {
     if (this.avatar === null) {
       const id = BigInt(this.id);
       // eslint-disable-next-line no-bitwise

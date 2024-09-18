@@ -1,0 +1,9 @@
+.MessageAttachment {
+  height: 225px;
+}
+
+.MessageAttachment--image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

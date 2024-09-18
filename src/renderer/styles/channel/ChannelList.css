@@ -1,0 +1,9 @@
+.ChannelList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc(100% - var(--server-info-height));
+  overflow: hidden;
+  overflow-y: auto;
+  align-items: center;
+}

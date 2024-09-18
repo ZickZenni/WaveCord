@@ -12,7 +12,12 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "allowJs": true,
-    "outDir": ".erb/dll"
+    "outDir": ".erb/dll",
+    "paths": {
+      "@/assets/*": ["./assets/*"],
+      "@/*": ["./src/renderer/*"],
+      "@/discord/*": ["./src/discord/*"]
+    }
   },
   "exclude": ["test", "release/build", "release/app/dist", ".erb/dll"]
 }

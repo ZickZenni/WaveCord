@@ -1,6 +1,27 @@
-/* eslint-disable import/prefer-default-export */
+import { ChannelType } from '@/discord/structures/channel/BaseChannel';
+import RendererChannel from '@/discord/structures/channel/RendererChannel';
 
-import RendererChannel from '../../discord/structures/channel/RendererChannel';
+// Channel Icons
+import TextChannelIcon from '@/assets/app/icons/channel/text-icon.svg';
+import VoiceChannelIcon from '@/assets/app/icons/channel/volume-2.svg';
+import AnnouncementChannelIcon from '@/assets/app/icons/channel/tv.svg';
+import StageChannelIcon from '@/assets/app/icons/channel/radio.svg';
+import CategoryIcon from '@/assets/app/icons/channel/arrow-down.svg';
+
+export function getChannelIcon(channel: RendererChannel) {
+  switch (channel.type) {
+    case ChannelType.GuildVoice:
+      return VoiceChannelIcon;
+    case ChannelType.GuildAnnouncement:
+      return AnnouncementChannelIcon;
+    case ChannelType.GuildStageVoice:
+      return StageChannelIcon;
+    case ChannelType.GuildCategory:
+      return CategoryIcon;
+    default:
+      return TextChannelIcon;
+  }
+}
 
 export function sortChannels(channels: RendererChannel[]): RendererChannel[] {
   let pairs: {

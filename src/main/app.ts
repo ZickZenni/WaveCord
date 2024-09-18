@@ -8,6 +8,7 @@ import { GatewayDispatchEvents, GatewaySocketEvent } from '../discord/ws/types';
 import { registerHandler, registerListener, sendToRenderer } from './ipc';
 import { CreateMessageOptions } from '../discord/structures/channel/BaseChannel';
 import { Message } from '../discord/structures/Message';
+import Tenor from './utils/tenor';
 
 export default class WaveCordApp {
   public readonly resourcesPath: string;
@@ -25,6 +26,8 @@ export default class WaveCordApp {
 
   public discord: Client;
 
+  public tenor: Tenor;
+
   public ready: boolean = false;
 
   public quitting: boolean = false;
@@ -33,6 +36,7 @@ export default class WaveCordApp {
 
   public constructor() {
     this.discord = new Client({ debug: true });
+    this.tenor = new Tenor();
 
     app.setPath('userData', path.join(app.getPath('appData'), 'WaveCord'));
 
@@ -58,12 +62,6 @@ export default class WaveCordApp {
     });
     this.discord.on('dispatch', (event: GatewaySocketEvent) => {
       logger.info('Received event: ', event.event);
-
-      if (event.event === GatewayDispatchEvents.Ready)
-        fs.writeFileSync(
-          '/home/rohloff/Documents/discord_ready_output.txt',
-          JSON.stringify(event.data ?? {}),
-        );
 
       if (event.event === GatewayDispatchEvents.MessageCreate) {
         const message = event.data as Message;
@@ -111,8 +109,8 @@ export default class WaveCordApp {
     logger.info('Creating new window.');
     this.window = new BrowserWindow({
       show: false,
-      width: 1250,
-      height: 697,
+      width: 1320,
+      height: 763,
       minWidth: 450,
       minHeight: 250,
       icon: path.join(this.resourcesPath, 'icon.png'),
@@ -245,6 +243,11 @@ export default class WaveCordApp {
         return channel.createMessage(options);
       },
     );
+
+    registerHandler('tenor:fetch-gif', async (url: string) => {
+      const result = await this.tenor.fetchGif(url);
+      return result;
+    });
   }
 
   private initTray() {

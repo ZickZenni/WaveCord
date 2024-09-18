@@ -1,0 +1,15 @@
+.SideBar {
+  display: flex;
+  flex-direction: column;
+  border-right: 2px solid var(--border-color);
+  padding-bottom: calc(
+    var(--user-panel-height) + var(--user-panel-padding) * 2 + 20px
+  );
+  padding-right: var(--app-content-padding);
+}
+
+.SideBar--separator {
+  margin: 8px 0px;
+  border-top: 2px solid var(--border-color);
+  width: 70%;
+}

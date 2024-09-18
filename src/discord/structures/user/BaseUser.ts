@@ -121,7 +121,7 @@ export default class BaseUser {
       data.avatar_decoration_data ?? this.avatarDecorationData;
   }
 
-  public getAvatarUrl(): string {
+  public getAvatarUrl(animated: boolean = false): string {
     if (this.avatar === null) {
       const id = BigInt(this.id);
       // eslint-disable-next-line no-bitwise
@@ -129,7 +129,18 @@ export default class BaseUser {
       return `https://cdn.discordapp.com/embed/avatars/${index < 0 ? 0 : index}.png`;
     }
 
+    if (this.avatar.startsWith('a_') && animated)
+      return `https://cdn.discordapp.com/avatars/${this.id}/${this.avatar}.gif`;
+
     return `https://cdn.discordapp.com/avatars/${this.id}/${this.avatar}.png`;
+  }
+
+  public getAvatarDecorationUrl(): string | null {
+    if (this.avatarDecorationData === null) return null;
+
+    return `https://cdn.discordapp.com/avatar-decoration-presets/${
+      this.avatarDecorationData.asset
+    }.png`;
   }
 
   public toRaw(): IUserData {

@@ -1,0 +1,48 @@
+:root {
+  --channel-item-width: 95%;
+  --channel-item-height: 40px;
+  --channel-item-padding: 10px;
+}
+
+.ChannelButton--normal {
+  display: flex;
+  align-items: center;
+  width: calc(var(--channel-item-width) - var(--channel-item-padding) * 2);
+  height: calc(var(--channel-item-height) - var(--channel-item-padding) * 2);
+  padding: 10px;
+  border-radius: 12px;
+  color: #73747a;
+  font-weight: 600;
+  transition: all 0.34s cubic-bezier(0.075, 0.82, 0.165, 1);
+  cursor: pointer;
+  flex-shrink: 0;
+  flex-grow: 0;
+  gap: 6px;
+}
+
+.ChannelButton--category {
+  display: flex;
+  margin-right: 16px;
+  gap: 4px;
+  color: #86878d;
+  font-weight: 600;
+  font-size: 14px;
+  width: calc(var(--channel-item-width) - var(--channel-item-padding) * 2);
+  margin-top: 12px;
+  margin-bottom: 2px;
+}
+
+.ChannelButton--category .ChannelButton--icon {
+  width: 0px;
+}
+
+.ChannelButton--normal:hover {
+  background: #1f1e25;
+  color: #fff;
+}
+
+.ChannelButton--icon {
+  width: 23px;
+  filter: invert(57%) sepia(0%) saturate(256%) hue-rotate(170deg)
+  brightness(101%) contrast(84%);
+}

@@ -288,7 +288,11 @@ export abstract class BaseGuild {
   }
 
   public getIconUrl(): string {
-    return '';
+    return `https://cdn.discordapp.com/icons/${this.id}/${this.icon}.png`;
+  }
+
+  public getBannerUrl(): string {
+    return `https://cdn.discordapp.com/banners/${this.id}/${this.banner}.webp?size=300`;
   }
 
   public toRaw(): IGuildData {

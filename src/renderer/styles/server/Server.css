@@ -1,0 +1,18 @@
+.Server {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  background: var(--panel-background);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25%;
+  overflow: hidden;
+}
+
+.Server--icon {
+  width: 100%;
+  flex-shrink: 0;
+}

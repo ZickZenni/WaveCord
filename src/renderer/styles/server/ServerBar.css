@@ -1,0 +1,11 @@
+.ServerBar {
+  display: flex;
+  flex-direction: column;
+  width: 72px;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+}

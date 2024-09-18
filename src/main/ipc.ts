@@ -20,7 +20,8 @@ export type IpcChannels =
   | 'discord:set-last-visited-channel'
   | 'discord:create-message'
   | 'discord:gateway:message-create'
-  | 'discord:relationships';
+  | 'discord:relationships'
+  | 'tenor:fetch-gif';
 
 export function registerHandler(
   channel: IpcChannels,

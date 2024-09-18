@@ -1,0 +1,18 @@
+import RendererGuild from '@/discord/structures/guild/RendererGuild';
+import { Link } from 'react-router-dom';
+
+type ServerProps = {
+  server: RendererGuild;
+};
+
+export default function Server({ server }: ServerProps) {
+  return (
+    <Link
+      to={`/guild/${server.id}`}
+      className="Server"
+      key={`Server:${server.id}`}
+    >
+      <img className="Server--icon" src={server.getIconUrl()} alt="" />
+    </Link>
+  );
+}

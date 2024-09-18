@@ -5,14 +5,7 @@ export default function HomePage() {
   return (
     <PageLayout>
       <div>
-        <PageSideBar>
-          <p>test</p>
-          <p>test</p>
-          <p>test</p>
-          <p>test</p>
-          <p>test</p>
-        </PageSideBar>
-        <p>Home</p>
+        <PageSideBar />
       </div>
     </PageLayout>
   );

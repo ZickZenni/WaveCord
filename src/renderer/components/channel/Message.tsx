@@ -34,6 +34,7 @@ export default function Message({ message }: MessageProps) {
 
         {gif !== null ? (
           <img
+            className="Message--gif-img"
             src={gif.media_formats.find((v) => v.type === 'gif')?.url}
             alt="Gif"
           />

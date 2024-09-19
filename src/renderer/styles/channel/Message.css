@@ -36,3 +36,8 @@
 .Message--attachments-container {
   display: flex;
 }
+
+.Message--gif-img {
+  max-width: 300px;
+  max-height: 300px;
+}

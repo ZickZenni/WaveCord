@@ -33,6 +33,10 @@
   flex-direction: column;
 }
 
+.Message--content {
+  white-space: pre-line;
+}
+
 .Message--attachments-container {
   display: flex;
 }
@@ -40,4 +44,12 @@
 .Message--gif-img {
   max-width: 300px;
   max-height: 300px;
+}
+
+.Message--reactions-container {
+  margin-top: 6px;
+  width: 100%;
+  flex-wrap: wrap;
+  display: flex;
+  gap: 6px;
 }

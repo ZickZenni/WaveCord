@@ -1,6 +1,7 @@
 import { BrowserWindow, ipcMain } from 'electron';
 
 export type IpcChannels =
+  | 'app:config'
   | 'logger:info'
   | 'logger:warn'
   | 'logger:error'
@@ -23,6 +24,7 @@ export type IpcChannels =
   | 'discord:gateway:message-create'
   | 'discord:relationships'
   | 'discord:private-channels'
+  | 'discord:request-emoji'
   | 'tenor:fetch-gif';
 
 export function registerHandler(

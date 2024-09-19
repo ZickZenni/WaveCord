@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IChannelData } from '../channel/BaseChannel';
+import { Emoji } from '../Emoji';
 import { Snowflake } from '../Snowflake';
 
 /**
@@ -123,7 +124,7 @@ export interface IGuildData {
   default_message_notifications: DefaultMessageNotificationLevel;
   explicit_content_filter: ExplicitContentFilterLevel;
   roles: any[];
-  emojis: any[];
+  emojis: Emoji[];
   /**
    * https://discord.com/developers/docs/resources/guild#guild-object-guild-features
    */
@@ -179,7 +180,7 @@ export abstract class BaseGuild {
 
   public roles: any[];
 
-  public emojis: any[];
+  public emojis: Emoji[];
 
   public features: string[];
 

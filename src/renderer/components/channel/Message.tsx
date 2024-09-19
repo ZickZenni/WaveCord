@@ -2,6 +2,7 @@ import { Message as MessageData } from '@/discord/structures/Message';
 import RendererUser from '@/discord/structures/user/RendererUser';
 import useGif from '@/hooks/useGif';
 import MessageAttachment from './MessageAttachment';
+import MessageReaction from './MessageReaction';
 
 type MessageProps = {
   message: MessageData;
@@ -12,6 +13,8 @@ export default function Message({ message }: MessageProps) {
 
   const author = new RendererUser(message.author);
   const authorDecorationUrl = author.getAvatarDecorationUrl();
+
+  const reactions = message.reactions ?? [];
 
   return (
     <div className="Message">
@@ -46,6 +49,18 @@ export default function Message({ message }: MessageProps) {
           {message.attachments.map((attachment) => {
             return (
               <MessageAttachment key={attachment.id} attachment={attachment} />
+            );
+          })}
+        </div>
+
+        <div className="Message--reactions-container">
+          {reactions.map((reaction) => {
+            return (
+              <MessageReaction
+                key={`Reaction:${reaction.emoji.name}`}
+                messageId={message.id}
+                reaction={reaction}
+              />
             );
           })}
         </div>

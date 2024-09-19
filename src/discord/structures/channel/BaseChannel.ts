@@ -84,6 +84,8 @@ export default abstract class BaseChannel {
 
   public lastMessageId: Snowflake | null;
 
+  public icon: Snowflake | null;
+
   constructor(data: IChannelData, messages?: Message[]) {
     this.id = data.id;
     this.type = data.type;
@@ -94,6 +96,7 @@ export default abstract class BaseChannel {
     this.messages = messages ?? [];
     this.recipientIds = data.recipient_ids ?? [];
     this.lastMessageId = data.last_message_id ?? null;
+    this.icon = data.icon ?? null;
 
     this.patch(data);
   }
@@ -109,6 +112,7 @@ export default abstract class BaseChannel {
       this.parentId = data.parent_id ?? null;
       this.recipientIds = data.recipient_ids || [];
       this.lastMessageId = data.last_message_id ?? null;
+      this.icon = data.icon ?? null;
     }
   }
 
@@ -139,6 +143,7 @@ export default abstract class BaseChannel {
       parent_id: this.parentId,
       recipient_ids: this.recipientIds,
       last_message_id: this.lastMessageId,
+      icon: this.icon,
     };
   }
 }

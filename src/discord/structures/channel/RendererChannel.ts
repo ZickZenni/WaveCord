@@ -1,5 +1,5 @@
 import { Message } from '../Message';
-import BaseChannel, { CreateMessageOptions } from './BaseChannel';
+import BaseChannel, { ChannelType, CreateMessageOptions } from './BaseChannel';
 
 export default class RendererChannel extends BaseChannel {
   public async fetchMessages(): Promise<Message[]> {
@@ -17,5 +17,11 @@ export default class RendererChannel extends BaseChannel {
       this.id,
       options,
     );
+  }
+
+  public getChannelIcon(): string | null {
+    if (this.type !== ChannelType.GroupDM) return null;
+
+    return `https://cdn.discordapp.com/channel-icons/${this.id}/${this.icon}.webp?size=32`;
   }
 }

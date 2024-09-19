@@ -11,6 +11,7 @@ import '@/styles/channel/ChannelButton.css';
 import '@/styles/channel/ChannelList.css';
 import '@/styles/channel/Message.css';
 import '@/styles/channel/MessageAttachment.css';
+import '@/styles/channel/MessageEmbed.css';
 import '@/styles/channel/MessageReaction.css';
 
 import '@/styles/directmessage/DirectMessageButton.css';

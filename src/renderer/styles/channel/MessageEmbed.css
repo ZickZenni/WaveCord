@@ -1,0 +1,30 @@
+.MessageEmbed {
+  display: flex;
+  flex-direction: column;
+  min-width: 60px;
+  max-width: 500px;
+  max-height: 1000px;
+  min-height: 20px;
+  background: var(--panel-background);
+  border-radius: 12px;
+  border-left: 3px solid green;
+  padding: 14px 14px;
+  overflow: hidden;
+  gap: 6px;
+}
+
+.MessageEmbed--title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.MessageEmbed--description {
+  white-space: pre-line;
+  font-size: 16px;
+}
+
+.MessageEmbed--thumbnail-img {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}

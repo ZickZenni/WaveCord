@@ -3,6 +3,7 @@ import RendererUser from '@/discord/structures/user/RendererUser';
 import useGif from '@/hooks/useGif';
 import MessageAttachment from './MessageAttachment';
 import MessageReaction from './MessageReaction';
+import MessageEmbed from './MessageEmbed';
 
 type MessageProps = {
   message: MessageData;
@@ -48,8 +49,11 @@ export default function Message({ message }: MessageProps) {
         <div className="Message--embeds-container">
           {message.embeds.map((embed, index) => {
             return (
-              // eslint-disable-next-line react/no-array-index-key
-              <div key={`Embed:${message.id}:${index}`}>{embed.title}</div>
+              <MessageEmbed
+                // eslint-disable-next-line react/no-array-index-key
+                key={`Embed:${message.id}:${index}`}
+                embed={embed}
+              />
             );
           })}
         </div>

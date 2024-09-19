@@ -2,6 +2,7 @@
 import { app, BrowserWindow, Menu, shell, Tray } from 'electron';
 import fs from 'fs';
 import path from 'path';
+import { Snowflake } from '@/discord/structures/Snowflake';
 import logger, { Logger } from '../common/log/logger';
 import { Client } from '../discord/core/client';
 import { GatewayDispatchEvents, GatewaySocketEvent } from '../discord/ws/types';
@@ -206,7 +207,14 @@ export default class WaveCordApp {
     registerHandler('discord:user', (userId: string | undefined) => {
       if (userId === undefined) return this.discord.users.clientUser?.toRaw();
 
-      return null;
+      return this.discord.users.cache.get(userId) ?? null;
+    });
+
+    registerHandler('discord:users', (userIds: Snowflake[]) => {
+      return this.discord.users.cache
+        .values()
+        .filter((v) => userIds.includes(v.id))
+        .map((v) => v.toRaw());
     });
 
     registerHandler('discord:guilds', () => {
@@ -243,6 +251,10 @@ export default class WaveCordApp {
         return channel.createMessage(options);
       },
     );
+
+    registerHandler('discord:private-channels', () => {
+      return this.discord.channels.listPrivate().map((v) => v.toRaw());
+    });
 
     registerHandler('tenor:fetch-gif', async (url: string) => {
       const result = await this.tenor.fetchGif(url);

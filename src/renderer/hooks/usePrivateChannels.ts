@@ -3,20 +3,20 @@ import RendererChannel from '@/discord/structures/channel/RendererChannel';
 import { useEffect, useState } from 'react';
 
 /**
- * Fetches all channels from a guild
+ * Fetches all private channels from the user
  */
-export default function useChannels(guildId: string) {
+export default function usePrivateChannels() {
   const [channels, setChannels] = useState<RendererChannel[]>([]);
 
   useEffect(() => {
     window.electron.ipcRenderer
-      .invoke('discord:channels', guildId)
+      .invoke('discord:private-channels')
       .then((data: IChannelData[]) => {
         setChannels(data.map((v) => new RendererChannel(v)));
         return true;
       })
       .catch((err) => console.error(err));
-  }, [guildId]);
+  }, []);
 
   return channels;
 }

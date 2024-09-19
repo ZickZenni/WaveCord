@@ -1,6 +1,6 @@
 import { Client } from '../core/client';
 import { debug, error } from '../core/logger';
-import { IChannelData } from '../structures/channel/BaseChannel';
+import { ChannelType, IChannelData } from '../structures/channel/BaseChannel';
 import MainChannel from '../structures/channel/MainChannel';
 import { Snowflake } from '../structures/Snowflake';
 import Collection from '../util/collection';
@@ -25,6 +25,19 @@ export class ChannelManager {
 
   public list(guildId: Snowflake): MainChannel[] {
     return this.cache.values().filter((v) => v.guildId === guildId);
+  }
+
+  /**
+   * Returns all private channels (direct messages, groups) where the user is in
+   */
+  public listPrivate(): MainChannel[] {
+    return this.cache
+      .values()
+      .filter(
+        (v) =>
+          v.type === ChannelType.DirectMessage ||
+          v.type === ChannelType.GroupDM,
+      );
   }
 
   public async fetch(

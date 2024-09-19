@@ -12,8 +12,12 @@ import '@/styles/channel/ChannelList.css';
 import '@/styles/channel/Message.css';
 import '@/styles/channel/MessageAttachment.css';
 
+import '@/styles/directmessage/DirectMessageButton.css';
+import '@/styles/directmessage/DirectMessageList.css';
+
 import '@/styles/page/GuildChannelPage.css';
 import '@/styles/page/GuildPage.css';
+import '@/styles/page/HomePage.css';
 import '@/styles/page/PageLayout.css';
 import '@/styles/page/PageSideBar.css';
 
@@ -33,6 +37,7 @@ import SideBar from '@/components/app/SideBar';
 import HomePage from '@/pages/HomePage/HomePage';
 import GuildPage from '@/pages/GuildPage/GuildPage';
 import GuildChannelPage from './pages/GuildPage/GuildChannelPage';
+import HomeChannelPage from './pages/HomePage/HomeChannelPage';
 
 export default function App() {
   return (
@@ -42,7 +47,9 @@ export default function App() {
         <SideBar />
         <UserPanel />
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage />}>
+            <Route path="channel/:channelId" element={<HomeChannelPage />} />
+          </Route>
           <Route path="/guild/:guildId" element={<GuildPage />}>
             <Route path="channel/:channelId" element={<GuildChannelPage />} />
           </Route>

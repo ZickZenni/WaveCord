@@ -52,6 +52,8 @@ export interface IChannelData {
   permissions?: string;
   flags?: number;
   total_message_sent?: number;
+  recipient_ids?: Snowflake[];
+  is_spam?: boolean;
 }
 
 export interface CreateMessageOptions {
@@ -78,6 +80,12 @@ export default abstract class BaseChannel {
 
   public messages: Message[];
 
+  public recipientIds: Snowflake[];
+
+  public lastMessageId: Snowflake | null;
+
+  public icon: Snowflake | null;
+
   constructor(data: IChannelData, messages?: Message[]) {
     this.id = data.id;
     this.type = data.type;
@@ -86,6 +94,9 @@ export default abstract class BaseChannel {
     this.name = data.name ?? '';
     this.parentId = data.parent_id ?? null;
     this.messages = messages ?? [];
+    this.recipientIds = data.recipient_ids ?? [];
+    this.lastMessageId = data.last_message_id ?? null;
+    this.icon = data.icon ?? null;
 
     this.patch(data);
   }
@@ -99,6 +110,9 @@ export default abstract class BaseChannel {
       this.position = data.position ?? 0;
       this.name = data.name ?? '';
       this.parentId = data.parent_id ?? null;
+      this.recipientIds = data.recipient_ids || [];
+      this.lastMessageId = data.last_message_id ?? null;
+      this.icon = data.icon ?? null;
     }
   }
 
@@ -127,6 +141,9 @@ export default abstract class BaseChannel {
       position: this.position,
       name: this.name,
       parent_id: this.parentId,
+      recipient_ids: this.recipientIds,
+      last_message_id: this.lastMessageId,
+      icon: this.icon,
     };
   }
 }

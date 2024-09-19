@@ -16,11 +16,13 @@ export type IpcChannels =
   | 'discord:fetch-messages'
   | 'discord:fetch-guild'
   | 'discord:user'
+  | 'discord:users'
   | 'discord:get-last-visited-channel'
   | 'discord:set-last-visited-channel'
   | 'discord:create-message'
   | 'discord:gateway:message-create'
   | 'discord:relationships'
+  | 'discord:private-channels'
   | 'tenor:fetch-gif';
 
 export function registerHandler(

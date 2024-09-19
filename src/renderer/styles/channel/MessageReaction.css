@@ -4,12 +4,19 @@
   min-width: 40px;
   height: 20px;
   padding: 10px 12px;
-  background: #4d7cf227;
   border-radius: 10px;
-  border: 2px solid #4d7cf263;
+  border: 2px solid #111;
   cursor: pointer;
+}
+
+.MessageReaction--clicked {
+  border: 2px solid #2bff13 !important;
 }
 
 .MessageReaction:hover {
   transform: scale(1.02);
+}
+
+.MessageReaction--count {
+  filter: drop-shadow(0px 1px 2px rgb(0, 0, 0));
 }

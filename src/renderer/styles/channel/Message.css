@@ -33,6 +33,10 @@
   flex-direction: column;
 }
 
+.Message--content {
+  white-space: pre-line;
+}
+
 .Message--attachments-container {
   display: flex;
 }

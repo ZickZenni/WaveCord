@@ -58,6 +58,7 @@ export default function Message({ message }: MessageProps) {
             return (
               <MessageReaction
                 key={`Reaction:${reaction.emoji.name}`}
+                messageId={message.id}
                 reaction={reaction}
               />
             );

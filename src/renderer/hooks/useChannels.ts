@@ -16,7 +16,7 @@ export default function useChannels(guildId: string) {
         return true;
       })
       .catch((err) => console.error(err));
-  });
+  }, [guildId]);
 
   return channels;
 }

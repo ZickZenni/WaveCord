@@ -1,6 +1,7 @@
 import { BrowserWindow, ipcMain } from 'electron';
 
 export type IpcChannels =
+  | 'app:config'
   | 'logger:info'
   | 'logger:warn'
   | 'logger:error'

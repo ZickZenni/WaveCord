@@ -10,10 +10,10 @@ import { registerHandler, registerListener, sendToRenderer } from './ipc';
 import { CreateMessageOptions } from '../discord/structures/channel/BaseChannel';
 import { Message } from '../discord/structures/Message';
 import Tenor from './utils/tenor';
+import { resourcesPath } from './paths';
+import { AppConfig } from '../common/appconfig';
 
 export default class WaveCordApp {
-  public readonly resourcesPath: string;
-
   public readonly isDebug: boolean =
     process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
@@ -41,9 +41,6 @@ export default class WaveCordApp {
 
     app.setPath('userData', path.join(app.getPath('appData'), 'WaveCord'));
 
-    this.resourcesPath = app.isPackaged
-      ? path.join(process.resourcesPath, 'assets')
-      : path.join(__dirname, '../../assets');
     this.instanceLock = app.requestSingleInstanceLock();
 
     logger.info('Starting app...');
@@ -114,7 +111,7 @@ export default class WaveCordApp {
       height: 763,
       minWidth: 450,
       minHeight: 250,
-      icon: path.join(this.resourcesPath, 'icon.png'),
+      icon: path.join(resourcesPath, 'icon.png'),
       frame: false,
       title: 'WaveCord',
       webPreferences: {
@@ -165,6 +162,13 @@ export default class WaveCordApp {
   }
 
   private registerIpcs() {
+    registerHandler('app:config', () => {
+      const config: AppConfig = {
+        assetsPath: resourcesPath,
+      };
+      return config;
+    });
+
     registerListener('window:minimize', () => {
       this.window?.minimize();
     });
@@ -264,7 +268,7 @@ export default class WaveCordApp {
 
   private initTray() {
     logger.info('Creating new tray.');
-    this.tray = new Tray(path.join(this.resourcesPath, 'icon.png'));
+    this.tray = new Tray(path.join(resourcesPath, 'icon.png'));
     const contextMenu = Menu.buildFromTemplate([
       { type: 'separator' },
       {

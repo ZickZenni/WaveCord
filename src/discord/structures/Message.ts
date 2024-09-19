@@ -1,4 +1,5 @@
 import { Attachment } from './Attachment';
+import { Reaction } from './Reaction';
 import { Snowflake } from './Snowflake';
 import { IUserData } from './user/BaseUser';
 
@@ -9,4 +10,5 @@ export interface Message {
   id: Snowflake;
   author: IUserData;
   channel_id: Snowflake;
+  reactions?: Reaction[];
 }

@@ -1,0 +1,15 @@
+.MessageReaction {
+  display: flex;
+  gap: 6px;
+  min-width: 40px;
+  height: 20px;
+  padding: 10px 12px;
+  background: #4d7cf227;
+  border-radius: 10px;
+  border: 2px solid #4d7cf263;
+  cursor: pointer;
+}
+
+.MessageReaction:hover {
+  transform: scale(1.02);
+}

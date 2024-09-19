@@ -1,13 +1,36 @@
+:root {
+  --guild-channel-header-height: 50px;
+}
+
 .GuildChannelPage {
+  position: relative;
   width: calc(100% - 40px);
   height: calc(100% - 40px);
   padding: 20px;
 }
 
+.GuildChannelPage--header {
+  padding: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: calc(100% - 40px);
+  height: calc(2px + var(--guild-channel-header-height) - 20px);
+  background: #1b1d21;
+  filter: drop-shadow(0px 5px 8px #0000005c);
+}
+
 .GuildChannelPage--messages-container {
+  padding-top: calc(var(--guild-channel-header-height) + 10px);
   display: flex;
   flex-direction: column-reverse;
-  height: calc(100% - 20px);
+  height: calc(100% - 20px - var(--guild-channel-header-height));
   overflow-y: auto;
   gap: 6px;
+}
+
+.GuildChannelPage--header-title {
+  font-size: 20px;
+  font-weight: 500;
 }

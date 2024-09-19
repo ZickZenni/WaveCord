@@ -1,0 +1,33 @@
+.DirectMessage {
+  display: flex;
+  align-items: center;
+  width: calc(var(--channel-item-width) - var(--channel-item-padding) * 2);
+  height: calc(var(--channel-item-height) - var(--channel-item-padding) * 2);
+  padding: 10px;
+  border-radius: 12px;
+  color: #73747a;
+  font-weight: 600;
+  transition: all 0.34s cubic-bezier(0.075, 0.82, 0.165, 1);
+  cursor: pointer;
+  flex-shrink: 0;
+  flex-grow: 0;
+  gap: 6px;
+}
+
+.DirectMessage:hover,
+.DirectMessage--selected {
+  background: #1f1e25;
+  color: #fff;
+}
+
+.DirectMessage--icon-img {
+  width: 32px;
+  border-radius: 50%;
+}
+
+.DirectMessage--name {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

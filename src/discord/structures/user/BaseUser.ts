@@ -143,6 +143,12 @@ export default class BaseUser {
     }.png`;
   }
 
+  public getName() {
+    if (this.globalName) return this.globalName;
+
+    return this.username;
+  }
+
   public toRaw(): IUserData {
     return {
       id: this.id,

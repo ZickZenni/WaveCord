@@ -21,6 +21,7 @@ export type IpcChannels =
   | 'discord:create-message'
   | 'discord:gateway:message-create'
   | 'discord:relationships'
+  | 'discord:private-channels'
   | 'tenor:fetch-gif';
 
 export function registerHandler(

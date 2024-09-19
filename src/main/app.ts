@@ -206,7 +206,7 @@ export default class WaveCordApp {
     registerHandler('discord:user', (userId: string | undefined) => {
       if (userId === undefined) return this.discord.users.clientUser?.toRaw();
 
-      return null;
+      return this.discord.users.cache.get(userId) ?? null;
     });
 
     registerHandler('discord:guilds', () => {
@@ -243,6 +243,10 @@ export default class WaveCordApp {
         return channel.createMessage(options);
       },
     );
+
+    registerHandler('discord:private-channels', () => {
+      return this.discord.channels.listPrivate().map((v) => v.toRaw());
+    });
 
     registerHandler('tenor:fetch-gif', async (url: string) => {
       const result = await this.tenor.fetchGif(url);

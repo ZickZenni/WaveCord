@@ -14,6 +14,7 @@ import '@/styles/channel/MessageAttachment.css';
 
 import '@/styles/page/GuildChannelPage.css';
 import '@/styles/page/GuildPage.css';
+import '@/styles/page/HomePage.css';
 import '@/styles/page/PageLayout.css';
 import '@/styles/page/PageSideBar.css';
 

@@ -20,7 +20,7 @@ export default class RendererChannel extends BaseChannel {
   }
 
   public getChannelIcon(): string | null {
-    if (this.type !== ChannelType.GroupDM) return null;
+    if (this.type !== ChannelType.GroupDM || this.icon === null) return null;
 
     return `https://cdn.discordapp.com/channel-icons/${this.id}/${this.icon}.webp?size=32`;
   }

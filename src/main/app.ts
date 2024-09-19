@@ -2,6 +2,7 @@
 import { app, BrowserWindow, Menu, shell, Tray } from 'electron';
 import fs from 'fs';
 import path from 'path';
+import { Snowflake } from '@/discord/structures/Snowflake';
 import logger, { Logger } from '../common/log/logger';
 import { Client } from '../discord/core/client';
 import { GatewayDispatchEvents, GatewaySocketEvent } from '../discord/ws/types';
@@ -207,6 +208,13 @@ export default class WaveCordApp {
       if (userId === undefined) return this.discord.users.clientUser?.toRaw();
 
       return this.discord.users.cache.get(userId) ?? null;
+    });
+
+    registerHandler('discord:users', (userIds: Snowflake[]) => {
+      return this.discord.users.cache
+        .values()
+        .filter((v) => userIds.includes(v.id))
+        .map((v) => v.toRaw());
     });
 
     registerHandler('discord:guilds', () => {

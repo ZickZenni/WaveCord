@@ -208,6 +208,16 @@ export default class WaveCordApp {
       return this.ready;
     });
 
+    registerHandler('discord:request-emoji', (emojiId: string) => {
+      const guild = this.discord.guilds.cache
+        .values()
+        .find((v) => v.emojis.find((e) => e.id === emojiId) !== undefined);
+
+      if (guild === undefined) return null;
+
+      return guild.emojis.find((e) => e.id === emojiId);
+    });
+
     registerHandler('discord:user', (userId: string | undefined) => {
       if (userId === undefined) return this.discord.users.clientUser?.toRaw();
 

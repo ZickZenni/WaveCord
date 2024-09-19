@@ -16,7 +16,7 @@ export default function usePrivateChannels() {
         return true;
       })
       .catch((err) => console.error(err));
-  });
+  }, []);
 
   return channels;
 }

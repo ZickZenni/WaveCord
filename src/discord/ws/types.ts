@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 
+import { IChannelData } from '../structures/channel/BaseChannel';
 import { IGuildData } from '../structures/guild/BaseGuild';
 import { Relationship } from '../structures/Relationship';
 import { IUserData } from '../structures/user/BaseUser';
@@ -139,4 +140,9 @@ export interface GatewayReadyDispatchData {
    * Your relationships with other users
    */
   relationships: Relationship[];
+
+  /**
+   * All private channels the user is in
+   */
+  private_channels: IChannelData[];
 }

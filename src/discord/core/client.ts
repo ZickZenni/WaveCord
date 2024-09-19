@@ -77,6 +77,13 @@ export class Client extends TypedEmitter<ClientEvents> {
           this.users.cache.set(userData.id, new MainUser(userData));
         });
 
+        data.private_channels.forEach((channelData) => {
+          this.channels.cache.set(
+            channelData.id,
+            new MainChannel(this, channelData),
+          );
+        });
+
         this.relationships = data.relationships;
 
         this.users.clientUser = new MainUser(data.user);

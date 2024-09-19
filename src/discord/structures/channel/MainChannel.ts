@@ -7,7 +7,12 @@ import BaseChannel, {
   IChannelData,
 } from './BaseChannel';
 
-const supportedTypes = [ChannelType.GuildText, ChannelType.GuildAnnouncement];
+const supportedTypes = [
+  ChannelType.GuildText,
+  ChannelType.GuildAnnouncement,
+  ChannelType.GroupDM,
+  ChannelType.DirectMessage,
+];
 
 export default class MainChannel extends BaseChannel {
   private readonly client: Client;
@@ -67,7 +72,7 @@ export default class MainChannel extends BaseChannel {
   /* --------------------------- */
 
   private async fetchMessagesApi(): Promise<Message[]> {
-    if (this.type !== ChannelType.GuildText || this.client === null) return [];
+    if (!supportedTypes.includes(this.type) || this.client === null) return [];
 
     try {
       const json = await this.client.restGet(

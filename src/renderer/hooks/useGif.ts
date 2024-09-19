@@ -10,7 +10,7 @@ export default function useGif(url: string): TenorGif | null {
     try {
       const uri = new URL(url);
 
-      if (allowedHosts.includes(uri.host.toLowerCase())) {
+      if (!allowedHosts.includes(uri.host.toLowerCase())) {
         setGif(null);
         return;
       }

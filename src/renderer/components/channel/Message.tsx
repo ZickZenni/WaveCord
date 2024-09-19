@@ -45,6 +45,15 @@ export default function Message({ message }: MessageProps) {
           <p className="Message--content">{message.content}</p>
         )}
 
+        <div className="Message--embeds-container">
+          {message.embeds.map((embed, index) => {
+            return (
+              // eslint-disable-next-line react/no-array-index-key
+              <div key={`Embed:${message.id}:${index}`}>{embed.title}</div>
+            );
+          })}
+        </div>
+
         <div className="Message--attachments-container">
           {message.attachments.map((attachment) => {
             return (

@@ -37,6 +37,10 @@
   white-space: pre-line;
 }
 
+.Message--author-name {
+  font-weight: 600;
+}
+
 .Message--attachments-container {
   display: flex;
 }

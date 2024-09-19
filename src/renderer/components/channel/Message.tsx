@@ -33,7 +33,7 @@ export default function Message({ message }: MessageProps) {
         )}
       </div>
       <div className="Message--content-container">
-        <p>{author.globalName}</p>
+        <p className="Message--author-name">{author.getName()}</p>
 
         {gif !== null ? (
           <img

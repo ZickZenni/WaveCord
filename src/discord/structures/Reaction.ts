@@ -3,6 +3,7 @@ export interface Reaction {
   emoji: {
     id: string | null;
     name: string;
+    animated?: boolean;
   };
   me: true;
 }

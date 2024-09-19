@@ -10,6 +10,7 @@ function ImageAttachment({ attachment }: MessageAttachmentProps) {
       <img
         className="MessageAttachment--image"
         src={attachment.url}
+        loading="lazy"
         alt={`Attachment:${attachment.filename}`}
       />
     </div>
